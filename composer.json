@@ -1,0 +1,12 @@
+{
+  "name": "koalamon/koalamonframeworkbundle",
+  "description": "The foundation of the koalamon platform",
+  "require": {
+    "php": ">= 5.5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Koalamon\\KoalamonFrameworkBundle\\": "src/"
+    }
+  }
+}
