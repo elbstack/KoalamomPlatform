@@ -3,10 +3,14 @@
   "description": "The foundation of the koalamon platform",
   "require": {
     "php": ">= 5.5.0"
+
+  "require-dev": {
+
   },
   "autoload": {
     "psr-4": {
-      "Koalamon\\KoalamonFrameworkBundle\\": "src/"
+      "Koalamon\\Bundle\\": "src/Koalamon/Bundle",
+      "Koalamon\\Component\\": "src/Koalamon/Component"
     }
   }
 }
