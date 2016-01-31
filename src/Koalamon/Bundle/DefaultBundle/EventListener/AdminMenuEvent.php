@@ -1,9 +1,9 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\DefaultBundle\EventListener;
+namespace Koalamon\Bundle\DefaultBundle\EventListener;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Project;
-use Koalamon\Bundle\Bundle\DefaultBundle\Menu\Menu;
+use Koalamon\Bundle\DefaultBundle\Menu\Menu;
 use Symfony\Component\EventDispatcher\Event;
 
 class AdminMenuEvent extends Event

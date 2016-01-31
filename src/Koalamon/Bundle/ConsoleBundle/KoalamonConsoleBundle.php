@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\ConsoleBundle;
+namespace Koalamon\Bundle\ConsoleBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\ConsoleBundle\Command;
+namespace Koalamon\Bundle\ConsoleBundle\Command;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Event;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\EventIdentifier;

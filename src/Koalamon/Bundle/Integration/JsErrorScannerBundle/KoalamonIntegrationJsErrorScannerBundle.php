@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\Integration\JsErrorScannerBundle;
+namespace Koalamon\Bundle\Integration\JsErrorScannerBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

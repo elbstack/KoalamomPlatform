@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\GeckoBoardBundle\DependencyInjection;
+namespace Koalamon\Bundle\GeckoBoardBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

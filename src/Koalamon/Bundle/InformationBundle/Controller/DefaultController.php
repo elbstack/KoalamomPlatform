@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\InformationBundle\Controller;
+namespace Koalamon\Bundle\InformationBundle\Controller;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

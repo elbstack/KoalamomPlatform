@@ -6,7 +6,7 @@
  * Time: 11:03
  */
 
-namespace Koalamon\Bundle\Bundle\ConsoleBundle\Command;
+namespace Koalamon\Bundle\ConsoleBundle\Command;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Project;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\System;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\DefaultBundle\Controller;
+namespace Koalamon\Bundle\DefaultBundle\Controller;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Controller\ProjectAwareController;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Project;
-use Koalamon\Bundle\Bundle\DefaultBundle\EventListener\AdminMenuEvent;
-use Koalamon\Bundle\Bundle\DefaultBundle\Menu\Element;
-use Koalamon\Bundle\Bundle\DefaultBundle\Menu\Menu;
+use Koalamon\Bundle\DefaultBundle\EventListener\AdminMenuEvent;
+use Koalamon\Bundle\DefaultBundle\Menu\Element;
+use Koalamon\Bundle\DefaultBundle\Menu\Menu;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class AdminController extends ProjectAwareController

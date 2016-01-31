@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\GeckoBoardBundle\DependencyInjection;
+namespace Koalamon\Bundle\GeckoBoardBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

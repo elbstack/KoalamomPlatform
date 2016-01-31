@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\InformationBundle\DependencyInjection;
+namespace Koalamon\Bundle\InformationBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

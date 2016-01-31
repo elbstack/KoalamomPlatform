@@ -1,9 +1,9 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\Integration\GooglePageSpeedBundle\Controller;
+namespace Koalamon\Bundle\Integration\GooglePageSpeedBundle\Controller;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\UserRole;
-use Koalamon\Bundle\Bundle\IntegrationBundle\Controller\SystemAwareIntegrationController;
+use Koalamon\Bundle\IntegrationBundle\Controller\SystemAwareIntegrationController;
 
 class DefaultController extends SystemAwareIntegrationController
 {

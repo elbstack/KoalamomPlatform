@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\DefaultBundle\Controller;
+namespace Koalamon\Bundle\DefaultBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

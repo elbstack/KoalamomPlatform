@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\Integration\GooglePageSpeedBundle\DependencyInjection;
+namespace Koalamon\Bundle\Integration\GooglePageSpeedBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

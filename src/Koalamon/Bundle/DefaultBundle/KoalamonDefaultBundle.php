@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\DefaultBundle;
+namespace Koalamon\Bundle\DefaultBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

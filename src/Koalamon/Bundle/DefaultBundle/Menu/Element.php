@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\DefaultBundle\Menu;
+namespace Koalamon\Bundle\DefaultBundle\Menu;
 
 class Element
 {

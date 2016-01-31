@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\Integration\KoalaPingBundle\Controller;
+namespace Koalamon\Bundle\Integration\KoalaPingBundle\Controller;
 use Koalamon\Bundle\IncidentDashboardBundle\Controller\ProjectAwareController;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\UserRole;
 use Koalamon\Bundle\Integration\KoalaPingBundle\Entity\KoalaPingConfig;

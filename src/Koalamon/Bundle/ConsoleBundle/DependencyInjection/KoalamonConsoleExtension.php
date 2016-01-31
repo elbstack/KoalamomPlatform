@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\ConsoleBundle\DependencyInjection;
+namespace Koalamon\Bundle\ConsoleBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\InformationBundle\Entity;
+namespace Koalamon\Bundle\InformationBundle\Entity;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Controller\ProjectAwareController;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Project;

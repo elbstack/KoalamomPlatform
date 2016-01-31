@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\InformationBundle;
+namespace Koalamon\Bundle\InformationBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\DefaultBundle\Tests\Controller;
+namespace Koalamon\Bundle\DefaultBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\GeckoBoardBundle\Controller;
+namespace Koalamon\Bundle\GeckoBoardBundle\Controller;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Controller\ProjectAwareController;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\EventIdentifier;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\Integration\JsErrorScannerBundle\EventListener;
+namespace Koalamon\Bundle\Integration\JsErrorScannerBundle\EventListener;
 
 use Koalamon\Bundle\IntegrationBundle\EventListener\IntegrationInitEvent;
 use Koalamon\Bundle\IntegrationBundle\Integration\Integration;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\Integration\GooglePageSpeedBundle;
+namespace Koalamon\Bundle\Integration\GooglePageSpeedBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

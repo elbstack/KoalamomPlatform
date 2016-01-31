@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\GeckoBoardBundle\Tests\Controller;
+namespace Koalamon\Bundle\GeckoBoardBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

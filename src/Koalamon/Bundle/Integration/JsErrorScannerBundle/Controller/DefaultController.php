@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\Integration\JsErrorScannerBundle\Controller;
+namespace Koalamon\Bundle\Integration\JsErrorScannerBundle\Controller;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\UserRole;
 use Koalamon\Bundle\IntegrationBundle\Controller\SystemAwareIntegrationController;

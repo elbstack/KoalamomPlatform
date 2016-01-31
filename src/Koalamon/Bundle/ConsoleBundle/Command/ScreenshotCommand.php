@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\ConsoleBundle\Command;
+namespace Koalamon\Bundle\ConsoleBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\GeckoBoardBundle;
+namespace Koalamon\Bundle\GeckoBoardBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

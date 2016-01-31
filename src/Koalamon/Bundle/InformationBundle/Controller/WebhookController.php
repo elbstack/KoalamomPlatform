@@ -1,9 +1,9 @@
 <?php
 
-namespace Koalamon\Bundle\Bundle\InformationBundle\Controller;
+namespace Koalamon\Bundle\InformationBundle\Controller;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Project;
-use Koalamon\Bundle\Bundle\InformationBundle\Entity\Information;
+use Koalamon\Bundle\InformationBundle\Entity\Information;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
