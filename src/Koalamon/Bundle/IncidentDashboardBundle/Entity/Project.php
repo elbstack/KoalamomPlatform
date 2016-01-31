@@ -112,7 +112,7 @@ class Project implements \JsonSerializable
     private $systems;
 
     /**
-     * @ORM\OneToMany(targetEntity="Koalamon\InformationBundle\Entity\Information", mappedBy="project")
+     * @ORM\OneToMany(targetEntity="Koalamon\Bundle\InformationBundle\Entity\Information", mappedBy="project")
      */
     private $informations;
 

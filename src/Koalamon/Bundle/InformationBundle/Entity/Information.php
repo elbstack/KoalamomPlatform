@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Notification
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Koalamon\InformationBundle\Entity\InformationRepository")
+ * @ORM\Entity(repositoryClass="Koalamon\Bundle\InformationBundle\Entity\InformationRepository")
  */
 class Information
 {
