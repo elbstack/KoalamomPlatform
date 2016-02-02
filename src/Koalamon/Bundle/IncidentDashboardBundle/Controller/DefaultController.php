@@ -35,9 +35,9 @@ class DefaultController extends ProjectAwareController
         $eventIdentifiers = $this->getDoctrine()->getRepository('KoalamonIncidentDashboardBundle:EventIdentifier')->findNewest($this->getProject());
 
         if ($dashboard) {
-            $baseTemplate = '::dashboard.html.twig';
+            $baseTemplate = 'KoalamonDefaultBundle::dashboard.html.twig';
         } else {
-            $baseTemplate = '::home.html.twig';
+            $baseTemplate = 'KoalamonDefaultBundle::home.html.twig';
         }
 
         return $this->render('KoalamonIncidentDashboardBundle:Default:status.html.twig',
