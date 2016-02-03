@@ -1,7 +1,7 @@
 services:
 
     koalamonintegration.initPlugin:
-        class: Koalamon\PluginBundle\EventListener\KernelRequestListener
+        class: Koalamon\Bundle\PluginBundle\EventListener\KernelRequestListener
         arguments: [ @service_container ]
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.request' }

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Collection
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Koalamon\Integration\MissingRequestBundle\Entity\CollectionRepository")
+ * @ORM\Entity(repositoryClass="Koalamon\Bundle\Integration\MissingRequestBundle\Entity\CollectionRepository")
  */
 class Collection implements \JsonSerializable
 {

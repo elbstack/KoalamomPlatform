@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    {% if app.user.hasUserRole(project, constant('Bauer\\IncidentDashboard\\CoreBundle\\Entity\\UserRole::ROLE_OWNER')) %}
+    {% if app.user.hasUserRole(project, constant('\\Koalamon\\Bundle\\IncidentDashboardBundle\\Entity\\UserRole::ROLE_OWNER')) %}
         <div class="box-element first">
             <div class="box-element-header">Project Options</div>
             <div class="box-element-content">
