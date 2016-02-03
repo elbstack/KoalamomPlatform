@@ -3,9 +3,6 @@
   "description": "The foundation of the koalamon platform",
   "require": {
     "php": ">= 5.5.0",
-    "ext-mbstring": "*",
-    "ext-intl": "*",
-    "ext-apcu": "*",
     "symfony/symfony": "2.7.*",
     "doctrine/orm": "^2.4.8",
     "doctrine/doctrine-bundle": "~1.4",
