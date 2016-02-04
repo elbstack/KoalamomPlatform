@@ -1,0 +1,54 @@
+options:
+  extendDefault: false
+
+extensions:
+
+  _SmokeStop:
+    class: whm\Smoke\Extensions\SmokeStop\StopExtension
+
+  _Reporter:
+    class: whm\Smoke\Extensions\SmokeReporter\ReporterExtension
+
+  _ResponseRetriever:
+    class: whm\Smoke\Extensions\SmokeResponseRetriever\ResponseRetrieverExtension
+
+  _Filter:
+    class: whm\Smoke\Extensions\SmokeFilter\FilterExtension
+    parameters:
+      filters:
+        LittleSeo_Robots:
+{% for key, systemElements in activeSystems %}
+{% for systemElement in systemElements  %}
+{% if not systemElement.options.seoReobotsTxt is defined %}
+          - {{ systemElement.system.url }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+reporter:
+  _CliReporter:
+    class: whm\Smoke\Extensions\SmokeReporter\Reporter\StandardCliReporter
+
+  KoalamonReporter:
+     class: whm\Smoke\Extensions\SmokeReporter\Reporter\KoalamonReporter
+     parameters:
+       systemUseRetriever: true
+       apiKey: {{ project.apiKey }}
+       server: {{ url('koalamon_default_homepage') }}
+       collect: false
+       groupBy: prefix
+
+responseRetriever:
+  class: whm\Smoke\Extensions\SmokeResponseRetriever\Retriever\ListRetriever\Retriever
+  parameters:
+    urls:
+{% for key, systemElements in activeSystems %}
+      {{ key }}:
+{% for systemElement in systemElements  %}
+        - {{ systemElement.system.url }}
+{% endfor %}
+{% endfor %}
+
+rules:
+   LittleSeo_Robots:
+    class: whm\Smoke\Rules\Seo\RobotsDisallowAllRule

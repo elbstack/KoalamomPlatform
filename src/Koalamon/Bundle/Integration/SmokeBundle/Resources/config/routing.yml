@@ -1,0 +1,11 @@
+koalamon_integration_smoke_config:
+    path:     /p/{project}/integrations/smoke/config/
+    defaults: { _controller: KoalamonIntegrationSmokeBundle:Config:index }
+
+koalamon_integration_smoke_seo_homepage:
+    path:     /p/{project}/integrations/smoke/seo/
+    defaults: { _controller: KoalamonIntegrationSmokeBundle:LittleSeo:index }
+
+koalamon_integration_smoke_seo_store:
+    path:     /p/{project}/integrations/smoke/seo/store
+    defaults: { _controller: KoalamonIntegrationSmokeBundle:LittleSeo:store }
