@@ -34,7 +34,7 @@ reporter:
      parameters:
        systemUseRetriever: true
        apiKey: {{ project.apiKey }}
-       server: {{ url('koalamon_default_homepage') }}
+       server: {{ url('koalamon_default_homepage') | trim('/') }}
        collect: false
        groupBy: prefix
 
