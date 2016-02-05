@@ -1,5 +1,9 @@
-koalamon_integration_smoke_config:
+koalamon_integration_smoke_config_project:
     path:     /p/{project}/integrations/smoke/config/
+    defaults: { _controller: KoalamonIntegrationSmokeBundle:Config:project }
+
+koalamon_integration_smoke_config:
+    path:     /p/integrations/smoke/config/
     defaults: { _controller: KoalamonIntegrationSmokeBundle:Config:index }
 
 koalamon_integration_smoke_seo_homepage:

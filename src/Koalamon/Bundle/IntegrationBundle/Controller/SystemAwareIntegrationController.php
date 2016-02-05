@@ -3,6 +3,7 @@
 namespace Koalamon\Bundle\IntegrationBundle\Controller;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Controller\ProjectAwareController;
+use Koalamon\Bundle\IncidentDashboardBundle\Entity\Project;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\UserRole;
 use Koalamon\Bundle\IntegrationBundle\Entity\IntegrationConfig;
 use Koalamon\Bundle\IntegrationBundle\Entity\IntegrationSystem;
@@ -135,7 +136,7 @@ abstract class SystemAwareIntegrationController extends ProjectAwareController
 
         $configs = $this->getDoctrine()
             ->getRepository('KoalamonIntegrationBundle:IntegrationConfig')
-            ->findBy(['status' => IntegrationConfig::STATUS_ALL, 'integration' => $this->getIntegrationIdentifier(), 'useSaaS' => true]);
+            ->findBy(['status' => IntegrationConfig::STATUS_ALL, 'integration' => $this->getIntegrationIdentifier(), 'useSaaS' => false]);
 
         $activeSystems = array();
 
@@ -148,7 +149,7 @@ abstract class SystemAwareIntegrationController extends ProjectAwareController
 
         $configs = $this->getDoctrine()
             ->getRepository('KoalamonIntegrationBundle:IntegrationConfig')
-            ->findBy(['status' => IntegrationConfig::STATUS_SELECTED, 'integration' => $this->getIntegrationIdentifier(), 'useSaaS' => true]);
+            ->findBy(['status' => IntegrationConfig::STATUS_SELECTED, 'integration' => $this->getIntegrationIdentifier(), 'useSaaS' => false]);
 
         foreach ($configs as $config) {
             $integrationSystems = $this->getDoctrine()
@@ -166,26 +167,24 @@ abstract class SystemAwareIntegrationController extends ProjectAwareController
         return $response;
     }
 
-    public function restGetSystemsForProjectAction(Request $request)
+    protected function getActiveSystemsForProject(Project $project)
     {
-        $this->assertApiKey($request->get('api_key'));
+        $activeSystems = array();
 
         $configs = $this->getDoctrine()
             ->getRepository('KoalamonIntegrationBundle:IntegrationConfig')
-            ->findBy(['status' => IntegrationConfig::STATUS_ALL, 'integration' => $this->getIntegrationIdentifier(), 'useSaaS' => false, 'project' => $this->getProject()]);
-
-        $activeSystems = array();
+            ->findBy(['status' => IntegrationConfig::STATUS_ALL, 'integration' => $this->getIntegrationIdentifier(), 'useSaaS' => true, 'project' => $project]);
 
         foreach ($configs as $config) {
             $systems = $config->getProject()->getSystems();
             foreach ($systems->toArray() as $system) {
-                $activeSystems[] = ['system' => $system, 'options' => $config->getOptions()];
+                $activeSystems[$system][] = ['system' => $system, 'options' => $config->getOptions()];
             }
         }
 
         $configs = $this->getDoctrine()
             ->getRepository('KoalamonIntegrationBundle:IntegrationConfig')
-            ->findBy(['status' => IntegrationConfig::STATUS_SELECTED, 'integration' => $this->getIntegrationIdentifier(), 'useSaaS' => false, 'project' => $this->getProject()]);
+            ->findBy(['status' => IntegrationConfig::STATUS_SELECTED, 'integration' => $this->getIntegrationIdentifier(), 'useSaaS' => true, 'project' => $project]);
 
         foreach ($configs as $config) {
             $integrationSystems = $this->getDoctrine()
@@ -193,11 +192,25 @@ abstract class SystemAwareIntegrationController extends ProjectAwareController
                 ->findBy(['project' => $config->getProject(), 'integration' => $this->getIntegrationIdentifier()]);
 
             foreach ($integrationSystems as $integrationSystem) {
-                $activeSystems[] = ['system' => $integrationSystem->getSystem(), 'options' => $integrationSystem->getOptions()];
+                if ($integrationSystem->getSystem()->getParent()) {
+                    $mainSystem = $integrationSystem->getSystem()->getParent()->getIdentifier();
+                } else {
+                    $mainSystem = $integrationSystem->getSystem()->getIdentifier();
+                }
+                if (!array_key_exists($mainSystem, $activeSystems)) {
+                    $activeSystems[$mainSystem] = [];
+                }
+                $activeSystems[$mainSystem][] = ['system' => $integrationSystem->getSystem(), 'options' => $integrationSystem->getOptions()];
             }
         }
+        return $activeSystems;
+    }
 
-        $response = new JsonResponse($activeSystems);
+    public function restGetSystemsForProjectAction(Request $request)
+    {
+        $this->assertApiKey($request->get('api_key'));
+
+        $response = new JsonResponse($this->getActiveSystemsForProject($this->getProject()));
         $response->setEncodingOptions($response->getEncodingOptions() | JSON_PRETTY_PRINT);
 
         return $response;
