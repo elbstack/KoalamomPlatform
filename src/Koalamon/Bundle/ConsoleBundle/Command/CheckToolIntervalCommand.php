@@ -17,7 +17,7 @@ class CheckToolIntervalCommand extends ContainerAwareCommand implements CheckToo
     {
         $this
             ->setName('koalamon:toolinterval:check')
-            ->setDescription('Checks if the tools where called in the mandatory interval');
+            ->setDescription('Checks if the tools were called in the mandatory interval');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
