@@ -1,5 +1,6 @@
 options:
   extendDefault: false
+  scanForeignDomains: false
 
 extensions:
 
@@ -127,7 +128,7 @@ rules:
     runLevel: 1
     class: whm\Smoke\Rules\Image\SizeRule
     parameters:
-      maxSize: 100
+      maxSize: 500
 
   _ImageFavIcon:
     runLevel: 1
@@ -143,7 +144,7 @@ rules:
 
   _XmlDuplicateId:
     runLevel: 2
-    class: whm\Smoke\Rules\Xml\DuplicateIdRule
+    class: whm\Smoke\Rules\NullRule
 
   _SecurityPasswordSecureTranfer:
     runLevel: 1
