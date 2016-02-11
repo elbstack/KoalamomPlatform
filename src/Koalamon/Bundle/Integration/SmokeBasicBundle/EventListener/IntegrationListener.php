@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\Integration\SiteInfoBundle\EventListener;
+namespace Koalamon\Bundle\Integration\SmokeBasicBundle\EventListener;
 
 use Koalamon\Bundle\IntegrationBundle\EventListener\IntegrationInitEvent;
 use Koalamon\Bundle\IntegrationBundle\Integration\Integration;
@@ -18,7 +18,7 @@ class IntegrationListener
     public function onInit(IntegrationInitEvent $event)
     {
         $integrationContainer = $event->getIntegrationContainer();
-        $url = $this->router->generate('koalamon_integration_site_info_homepage', ['project' => $event->getProject()->getIdentifier()]);
-        $integrationContainer->addIntegration(new Integration('Site Info', '/images/integrations/siteinfo.png', 'Checking for big files and sites.', $url));
+        $url = $this->router->generate('koalamon_integration_smoke_basic_homepage', ['project' => $event->getProject()->getIdentifier()]);
+        $integrationContainer->addIntegration(new Integration('Smoke', '/images/integrations/smoke.png', 'Crawling your website for anomalies.', $url));
     }
 }

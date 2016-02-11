@@ -19,6 +19,6 @@ class IntegrationListener
     {
         $integrationContainer = $event->getIntegrationContainer();
         $url = $this->router->generate('koalamon_integration_smoke_seo_homepage', ['project' => $event->getProject()->getIdentifier()]);
-        $integrationContainer->addIntegration(new Integration('LittleSEO', '', '', $url));
+        $integrationContainer->addIntegration(new Integration('LittleSEO', '/images/integrations/littleseo.png', 'Checking some search engine rules', $url));
     }
 }

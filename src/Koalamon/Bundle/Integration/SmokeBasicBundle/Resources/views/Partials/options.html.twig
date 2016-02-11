@@ -1,0 +1,30 @@
+{#<input type="checkbox" name="{{ elementName }}[seoReobotsTxt]"
+       {% if options.seoReobotsTxt is defined %}checked=checked{% endif %}> Check robots.txt file#}
+
+{% set elementNameNormalized = elementName | replace('[', '_') | replace(']', '_') %}
+
+<div id="filters_{{ elementNameNormalized }}">
+    <span style="font-weight: 400">Filter</span>
+</div>
+
+<div style="clear: both"></div>
+
+<script>
+    {% for ruleFilters in options %}
+    {% for key, filter in ruleFilters %}
+    addFilterElement('{{ elementNameNormalized }}', '{{ elementName }}', '{{ filter.rule }}', '{{ filter.url }}');
+    {% endfor %}
+    {% endfor %}
+</script>
+
+
+<select id="{{ elementNameNormalized }}_rule" style="width: 180px; margin-right: 20px">
+    <option disabled selected>Choose rule</option>
+    {% for rule in rules %}
+        <option value="{{ rule }}">{{ rule }}</option>
+    {% endfor %}
+</select>
+
+<input id="{{ elementNameNormalized }}_url" type="text" placeholder="url" style="width: 323px; margin-right: 20px">
+
+<button style="padding: 3px" onclick="addFilter('{{ elementNameNormalized }}', '{{ elementName }}'); return false;">add</button>

@@ -1,0 +1,19 @@
+koalamon_integration_smoke_basic_rest:
+    path:     /p/integrations/smokebasic/rest/
+    defaults: { _controller: KoalamonIntegrationSmokeBasicBundle:Default:restGetSystems }
+
+koalamon_integration_smoke_basic_homepage:
+    path:     /p/{project}/integrations/smokebasic/
+    defaults: { _controller: KoalamonIntegrationSmokeBasicBundle:Default:index }
+
+koalamon_integration_smoke_basic_store:
+    path:     /p/{project}/integrations/smokebasic/store
+    defaults: { _controller: KoalamonIntegrationSmokeBasicBundle:Default:store }
+
+koalamon_integration_smoke_basic_config_project:
+    path:     /p/{project}/integrations/smokebasic/config/{system}/
+    defaults: { _controller: KoalamonIntegrationSmokeBasicBundle:Config:project }
+
+koalamon_integration_smoke_basic_config:
+    path:     /p/integrations/smokebasic/config/
+    defaults: { _controller: KoalamonIntegrationSmokeBasicBundle:Config:index }
