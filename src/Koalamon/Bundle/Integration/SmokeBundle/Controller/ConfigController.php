@@ -8,12 +8,11 @@ use Koalamon\Bundle\IntegrationBundle\Controller\SystemAwareIntegrationControlle
 use Koalamon\Bundle\IntegrationBundle\Entity\IntegrationConfig;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Yaml\Yaml;
 
 
 class ConfigController extends SystemAwareIntegrationController
 {
-    private $rules = array('LittleSeo_Robots' => 'seoReobotsTxt');
-
     // @todo should be done inside the config file
     const API_KEY = '1785d2a-5617-4da2-9f0d-993edf547522';
     const INTEGRATION_ID = 'Smoke';
@@ -55,14 +54,70 @@ class ConfigController extends SystemAwareIntegrationController
         return new JsonResponse($projectUrls);
     }
 
+    private function getActiveLittleSeoConfig()
+    {
+        $littleSeoSystems = $this->getActiveSystemsForProject($this->getProject(), LittleSeoController::INTEGRATION_ID);
+
+        $rule = ['class' => 'whm\Smoke\Rules\Seo\RobotsDisallowAllRule'];
+
+        foreach ($littleSeoSystems as $littleSeoSystem) {
+            if ($littleSeoSystem[0]['options']['seoReobotsTxt'] == "on") {
+                $activeSystems[] = $littleSeoSystem[0]['system'];
+            }
+        }
+
+        return ['LittleSeo_Robots' => ['systems' => $activeSystems, 'rule' => $rule]];
+    }
+
+    private function getXPathConfig()
+    {
+        $xpathSystems = $this->getActiveSystemsForProject($this->getProject(), XPathCheckerController::INTEGRATION_ID);
+
+        $activeSystems = [];
+        $rules[] = [];
+
+        foreach ($xpathSystems as $xpathSystem) {
+            $system = $xpathSystem[0];
+            $identifier = 'XPathChecker_' . $system['system']->getId();
+
+            $xpaths = $system['options']['xpaths'];
+            $rule = ['class' => 'whm\Smoke\Rules\Html\XPathExistsRule', 'parameters' => ['xPaths' => array_values($xpaths)]];
+
+            $activeSystems[$identifier] = ['systems' => [$system['system']], 'rule' => $rule];
+        }
+
+        return $activeSystems;
+    }
+
+    private function extractSystems($activeSystems)
+    {
+        $allSystems = [];
+
+        foreach ($activeSystems as $rule => $config) {
+            foreach ($config['systems'] as $system) {
+                $allSystems[$system->getIdentifier()][$system->getUrl()] = $system->getUrl();
+            }
+        }
+        return $allSystems;
+    }
+
     public function projectAction(Request $request)
     {
         $this->assertApiKey($request->get('api_key'));
 
+        $activeSystems = $this->getActiveLittleSeoConfig();
+        $activeSystems = array_merge($activeSystems, $this->getXPathConfig());
+
+        $rules = ['rules' => []];
+        foreach ($activeSystems as $key => $activeSystem) {
+            $rules['rules'][$key] = $activeSystem['rule'];
+        }
+
         return $this->render('KoalamonIntegrationSmokeBundle:Config:smoke.yml.twig',
             [
-                'activeSystems' => $this->getActiveSystemsForProject($this->getProject()),
-                'systems' => $this->getSystems()
+                'activeSystems' => $activeSystems,
+                'rules' => Yaml::dump($rules, 5, 2),
+                'allSystems' => $this->extractSystems($activeSystems)
             ]);
     }
 }

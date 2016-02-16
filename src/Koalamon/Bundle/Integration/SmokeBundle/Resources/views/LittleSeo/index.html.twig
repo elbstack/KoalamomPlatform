@@ -1,4 +1,4 @@
-{% extends 'KoalamonDefaultBundle:LittleSeo:master/admin.html.twig' %}
+{% extends '@KoalamonDefault/Default/master/admin.html.twig' %}
 
 {% block admin %}
 
@@ -64,11 +64,11 @@
                 <h2>Options for all Systems</h2>
 
                 <p>The options you select in this paragraph will be applied to all systems.</p>
-                {% include 'KoalamonIntegrationSmokeBundle:Partials:options.html.twig' with { 'system': config, 'options': config.options, 'elementName': 'options' } %}
+                {% include 'KoalamonIntegrationSmokeBundle:LittleSeo:options.html.twig' with { 'system': config, 'options': config.options, 'elementName': 'options' } %}
             </div>
 
             <div class="configOptions" style="{% if config.status == 'all' %}display:none{% endif %}">
-                {% include 'KoalamonIntegrationBundle:Partials:systems.check.html.twig' with {'systems': systems, 'checkedSystems': integratedSystems, 'optionsTemplate': 'KoalamonIntegrationSmokeBundle:Partials:options.html.twig', 'hideSubSystems': true} only %}
+                {% include 'KoalamonIntegrationBundle:Partials:systems.check.html.twig' with {'systems': systems, 'checkedSystems': integratedSystems, 'optionsTemplate': 'KoalamonIntegrationSmokeBundle:LittleSeo:options.html.twig', 'hideSubSystems': true} only %}
             </div>
 
             <div style="clear:both"></div>

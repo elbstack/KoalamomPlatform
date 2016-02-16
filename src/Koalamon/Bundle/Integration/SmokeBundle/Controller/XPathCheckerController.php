@@ -7,10 +7,9 @@ use Koalamon\Bundle\Integration\KoalaPingBundle\Entity\KoalaPingConfig;
 use Koalamon\Bundle\Integration\KoalaPingBundle\Entity\KoalaPingSystem;
 use Koalamon\Bundle\IntegrationBundle\Controller\SystemAwareIntegrationController;
 
-
-class LittleSeoController extends SystemAwareIntegrationController
+class XPathCheckerController extends SystemAwareIntegrationController
 {
-    const INTEGRATION_ID = 'Smoke';
+    const INTEGRATION_ID = "xpathchecker";
 
     protected function getIntegrationIdentifier()
     {
@@ -25,7 +24,7 @@ class LittleSeoController extends SystemAwareIntegrationController
     public function indexAction()
     {
         $this->assertUserRights(UserRole::ROLE_ADMIN);
-        return $this->render('KoalamonIntegrationSmokeBundle:LittleSeo:index.html.twig',
+        return $this->render('KoalamonIntegrationSmokeBundle:XPathChecker:index.html.twig',
             [
                 'config' => $this->getConfig(),
                 'systems' => $this->getSystems(),

@@ -167,13 +167,17 @@ abstract class SystemAwareIntegrationController extends ProjectAwareController
         return $response;
     }
 
-    protected function getActiveSystemsForProject(Project $project)
+    protected function getActiveSystemsForProject(Project $project, $integrationIdentifier = null)
     {
+        if (is_null($integrationIdentifier)) {
+            $integrationIdentifier = $this->getIntegrationIdentifier();
+        }
+
         $activeSystems = array();
 
         $configs = $this->getDoctrine()
             ->getRepository('KoalamonIntegrationBundle:IntegrationConfig')
-            ->findBy(['status' => IntegrationConfig::STATUS_ALL, 'integration' => $this->getIntegrationIdentifier(), 'useSaaS' => true, 'project' => $project]);
+            ->findBy(['status' => IntegrationConfig::STATUS_ALL, 'integration' => $integrationIdentifier, 'useSaaS' => true, 'project' => $project]);
 
         foreach ($configs as $config) {
             $systems = $config->getProject()->getSystems();
@@ -184,12 +188,12 @@ abstract class SystemAwareIntegrationController extends ProjectAwareController
 
         $configs = $this->getDoctrine()
             ->getRepository('KoalamonIntegrationBundle:IntegrationConfig')
-            ->findBy(['status' => IntegrationConfig::STATUS_SELECTED, 'integration' => $this->getIntegrationIdentifier(), 'useSaaS' => true, 'project' => $project]);
+            ->findBy(['status' => IntegrationConfig::STATUS_SELECTED, 'integration' => $integrationIdentifier, 'useSaaS' => true, 'project' => $project]);
 
         foreach ($configs as $config) {
             $integrationSystems = $this->getDoctrine()
                 ->getRepository('KoalamonIntegrationBundle:IntegrationSystem')
-                ->findBy(['project' => $config->getProject(), 'integration' => $this->getIntegrationIdentifier()]);
+                ->findBy(['project' => $config->getProject(), 'integration' => $integrationIdentifier]);
 
             foreach ($integrationSystems as $integrationSystem) {
                 if ($integrationSystem->getSystem()->getParent()) {

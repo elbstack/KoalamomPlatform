@@ -117,6 +117,9 @@ class System implements \JsonSerializable
      */
     public function getIdentifier()
     {
+        if($this->parent) {
+            return $this->parent->getIdentifier();
+        }
         return $this->identifier;
     }
 
@@ -133,6 +136,7 @@ class System implements \JsonSerializable
      */
     public function getProject()
     {
+
         return $this->project;
     }
 
@@ -228,16 +232,14 @@ class System implements \JsonSerializable
         }
 
         if ($this->parent) {
-            $identifer = $this->parent->getIdentifier();
             $parent = $this->parent->getId();
         } else {
-            $identifer = $this->getIdentifier();
             $parent = false;
         }
 
         return [
             'id' => $this->id,
-            'identifier' => $identifer,
+            'identifier' => $this->getIdentifier(),
             'name' => $this->getName(),
             'url' => $this->getUrl(),
             'parent' => $parent,

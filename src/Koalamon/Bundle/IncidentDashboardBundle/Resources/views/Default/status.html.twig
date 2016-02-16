@@ -30,7 +30,7 @@
                 {% if eventIdentifier.lastEvent.status == "failure" %}
                     {% if not eventIdentifier.knownIssue %}
                         {% set incidentFound = true %}
-                        {% include "KoalamonIncidentDashboardBundle:Default:partials/row.html.twig" with {"event": eventIdentifier.lastEvent } %}
+                        {% include "@KoalamonIncidentDashboard/Default/partials/row.html.twig" with {"event": eventIdentifier.lastEvent } %}
                     {% endif %}
                 {% endif %}
             {% endfor %}
@@ -48,7 +48,7 @@
                 {% if eventIdentifier.lastEvent.status == "failure" %}
                     {% if eventIdentifier.knownIssue %}
                         {% set incidentFound = true %}
-                        {% include "KoalamonIncidentDashboardBundle:Default:partials/row.html.twig" with {"event": eventIdentifier.lastEvent } %}
+                        {% include "@KoalamonIncidentDashboard/Default/partials/row.html.twig" with {"event": eventIdentifier.lastEvent } %}
                     {% endif %}
                 {% endif %}
             {% endfor %}
@@ -66,7 +66,7 @@
                 {% if eventIdentifier.lastEvent.status == "success" %}
                     {% if not eventIdentifier.lastEvent.unique %}
                         {% set incidentFound = true %}
-                        {% include "KoalamonIncidentDashboardBundle:Default:partials/row.html.twig" with {"event": eventIdentifier.lastEvent } %}
+                        {% include "@KoalamonIncidentDashboard/Default/partials/row.html.twig" with {"event": eventIdentifier.lastEvent } %}
                     {% endif %}
                 {% endif %}
             {% endfor %}

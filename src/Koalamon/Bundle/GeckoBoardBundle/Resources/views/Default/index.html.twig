@@ -1,47 +1,31 @@
-{% extends 'KoalamonDefaultBundle:Default:master/admin.html.twig' %}
+{% extends '@KoalamonDefault/Default/master/admin.html.twig' %}
 
 {% block admin %}
 
-    <style>
-        thead tr td {
-            padding-top: 20px;
-            padding-bottom: 10px;
-            font-weight: 400;
-            font-size: 20px;
-        }
+    <form action="{{ path('koalamon_gecko_board_filter', { 'project': project.identifier}) }}" method="post">
 
-        table tr td {
-            padding-right: 40px;
-        }
-    </style>
+        <select required="required" name="system">
+            <option selected disabled>Select a System</option>
+            {% for system in project.systems %}
+                <option value="{{ system.id }}">{{ system.name }}</option>
+            {% endfor %}
+        </select>
 
-    <img src="/images/geckoboard-logo.gif" width="200">
+        <select required="required" name="tool">
+            <option selected disabled>Select a Tool</option>
+            {% for tool in project.tools %}
+                <option value="{{ tool.id }}">{{ tool.name }}</option>
+            {% endfor %}
+        </select>
 
+        <input type="submit" value="filter">
 
-    <table>
-        <thead>
-        <tr>
-            <td>Identifier</td>
-            <td>System</td>
-            <td>Tool</td>
-        </tr>
-        </thead>
-        {% for identifier in project.eventIdentifiers %}
-            <tr>
-                <td class="row-identifier">
-                    {{ identifier.identifier }}
-                </td>
-                <td class="row-system">
-                    {{ identifier.lastevent.system }}
-                </td>
-                <td class="row-tool">
-                    {{ identifier.tool.name }}
-                </td>
-                <td class="row-url">
-                    {{ url('koalamon_gecko_board_linechart', {'eventIdentifier': identifier.id }) }}
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+        {% if eventIdentfiers is defined %}
+            {% for eventIdentifier in eventIdentifiers %}
+                {{ eventIdentifer.identifier }}
+            {% endfor %}
+        {% endif %}
+
+    </form>
 
 {% endblock %}

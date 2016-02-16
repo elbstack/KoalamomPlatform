@@ -5,6 +5,7 @@ namespace Koalamon\Bundle\Integration\SmokeBasicBundle\Controller;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\System;
 use Koalamon\Bundle\Integration\KoalaPingBundle\Entity\KoalaPingConfig;
 use Koalamon\Bundle\Integration\KoalaPingBundle\Entity\KoalaPingSystem;
+use Koalamon\Bundle\Integration\SmokeBundle\Controller\LittleSeoController;
 use Koalamon\Bundle\IntegrationBundle\Controller\SystemAwareIntegrationController;
 use Koalamon\Bundle\IntegrationBundle\Entity\IntegrationConfig;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -45,7 +46,7 @@ class ConfigController extends SystemAwareIntegrationController
 
         foreach ($projects as $project) {
             $activeSystems = $this->getActiveSystemsForProject($project);
-            foreach($activeSystems as $activeSystem) {
+            foreach ($activeSystems as $activeSystem) {
                 $projectUrls[] = $this->generateUrl('koalamon_integration_smoke_basic_config_project', ['project' => $project->getIdentifier(), 'system' => $activeSystem[0]['system']->getId()], true) . '?api_key=' . $project->getApiKey();
             }
 
@@ -58,10 +59,10 @@ class ConfigController extends SystemAwareIntegrationController
     {
         $this->assertApiKey($request->get('api_key'));
 
-        $activeSystems = $this->getActiveSystemsForProject($this->getProject());
+        $littleSeoActiveSystems = $this->getActiveSystemsForProject($this->getProject());
 
         $filters = array();
-        foreach ($activeSystems as $key => $activeSystem) {
+        foreach ($littleSeoActiveSystems as $key => $activeSystem) {
             if (is_array($activeSystem[0]['options']['filter'])) {
                 foreach ($activeSystem[0]['options']['filter'] as $filter) {
                     $rule = $filter['rule'];
@@ -76,8 +77,8 @@ class ConfigController extends SystemAwareIntegrationController
 
         return $this->render('KoalamonIntegrationSmokeBasicBundle:Config:smoke.yml.twig',
             [
-                'activeSystems' => $activeSystems,
-                'systems' => $this->getSystems(),
+                'littleSeoActiveSystems' => $littleSeoActiveSystems,
+                'systems' => $systems,
                 'filters' => $filters,
                 'system' => $system
             ]);

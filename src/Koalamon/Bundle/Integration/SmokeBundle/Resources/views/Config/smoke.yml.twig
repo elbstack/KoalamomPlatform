@@ -15,13 +15,11 @@ extensions:
   _Filter:
     class: whm\Smoke\Extensions\SmokeFilter\FilterExtension
     parameters:
-      filters:
-        LittleSeo_Robots:
-{% for key, systemElements in activeSystems %}
-{% for systemElement in systemElements  %}
-{% if not systemElement.options.seoReobotsTxt is defined %}
-          - {{ systemElement.system.url }}
-{% endif %}
+      exclusive:
+{% for rule, systems in activeSystems %}
+        {{ rule }}:
+{% for system in systems['systems'] %}
+          - {{ system.url }}
 {% endfor %}
 {% endfor %}
 
@@ -42,13 +40,12 @@ responseRetriever:
   class: whm\Smoke\Extensions\SmokeResponseRetriever\Retriever\ListRetriever\Retriever
   parameters:
     urls:
-{% for key, systemElements in activeSystems %}
-      {{ key }}:
-{% for systemElement in systemElements  %}
-        - {{ systemElement.system.url }}
-{% endfor %}
+{% for systemIdentifier, systems in allSystems %}
+      {{ systemIdentifier }}:
+{% for system in systems  %}
+        - {{ system }}
 {% endfor %}
 
-rules:
-   LittleSeo_Robots:
-    class: whm\Smoke\Rules\Seo\RobotsDisallowAllRule
+{% endfor %}
+
+{{ rules }}

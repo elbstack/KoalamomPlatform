@@ -28,7 +28,7 @@
         <div id="day">
             {% for event in events %}
                 {% if not event.eventIdentifier.knownIssue %}
-                    {% include "KoalamonIncidentDashboardBundle:Default:partials/row.html.twig" with { "showOptions": false } %}
+                    {% include "KoalamonIncidentDashboardBundle:LittleSeo:partials/row.html.twig" with { "showOptions": false } %}
                 {% endif %}
             {% endfor %}
         </div>

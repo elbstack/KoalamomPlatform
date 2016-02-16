@@ -1,48 +1,6 @@
-{% extends 'KoalamonDefaultBundle:Default:master/admin.html.twig' %}
+{% extends '@KoalamonIntegration/Master/system.html.twig' %}
 
-{% block admin %}
-
-    <script>
-        function storeIntegration(formId) {
-            var url = $("#" + formId).attr('action');
-            $.post(url, $("#" + formId).serialize(), function (data) {
-                if (data['status'] == 'failure') {
-                    toastr.warning(data['message']);
-                } else {
-                    toastr.success(data['message']);
-                    $('#id' + data['elementId']).val(data['id']);
-                    if (reload) {
-                        location.reload();
-                    }
-                }
-            });
-        }
-    </script>
-
-    <style>
-        #integration .subContent {
-            margin-left: 20px;
-        }
-
-        #integration .subContent a {
-            border-bottom: 1px solid #555555;
-        }
-
-        #main #integration h2 {
-            font-weight: 200;
-            text-transform: none;
-            border-top: 1px solid #eee;
-            margin-top: 50px;
-            padding-top: 20px;
-        }
-
-        #main #integration h3 {
-            font-weight: 200;
-            text-transform: none;
-            margin-top: 50px;
-            padding-top: 20px;
-        }
-    </style>
+{% block integration %}
 
     <script>
         function addFilter(elementPrefix, elementName) {
