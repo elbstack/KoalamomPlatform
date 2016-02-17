@@ -245,6 +245,19 @@ class Project implements \JsonSerializable
         return $this->systems;
     }
 
+    public function getMainSystems()
+    {
+        $systems = [];
+
+        foreach ($this->getSystems() as $system) {
+            if (!$system->getParent()) {
+                $systems[] = $system;
+            }
+        }
+
+        return $systems;
+    }
+
     /**
      * @return mixed
      */
