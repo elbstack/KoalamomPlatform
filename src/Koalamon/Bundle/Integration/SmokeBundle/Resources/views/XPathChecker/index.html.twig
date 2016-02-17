@@ -15,9 +15,10 @@
         }
 
         function addXPathElement(elementPrefix, elementName, xpath) {
+            console.log(xpath);
             key = Math.floor((Math.random() * 1000000) + 1);
             html = '<div id="' + elementPrefix + key + '_div">' +
-                    '<input type="hidden" name="' + elementName + '[xpaths][' + key + ']" value="' + xpath + '">' +
+                    '<input type="hidden" name="' + elementName + '[xpaths][' + key + ']" value="' + xpath.replace(/"/g, "&quot;") + '">' +
                     '<div style="width: 330px; float: left">' + xpath + '</div >' +
                     '<button style="margin-top: 8px; padding: 3px" onclick = "$(\'#' + elementPrefix + key + '_div\').remove();return false;">remove</button>' +
                     '</div>';
