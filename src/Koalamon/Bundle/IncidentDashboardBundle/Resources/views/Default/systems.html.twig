@@ -8,9 +8,9 @@
         <div class="box-element first incidentList">
             <div class="box-element-content">
                 {% for systemInfo in systemInfos %}
-                    <div class="systemInfo" style="padding-bottom: 20px">
+                    <div class="systemInfo" style="padding-bottom: 20px; min-height: 600px">
                         {% if systemInfo.system.image %}
-                            <img src="/images/screenshots/{{ systemInfo.system.image }}" style="float: left; width: 300px; padding-right: 100px">
+                            <img src="{{ path('koalamon_screenshot_get', {'project': project.identifier, 'systemIdentifier': systemInfo.system.identifier}) }}" style="float: left; width: 300px; padding-right: 100px">
                         {% endif %}
                         <div class="name">
                             <a name="{{ systemInfo.system.identifier }}" href="{{ systemInfo.system.url }}">{{ systemInfo.system.name }}</a>
@@ -19,13 +19,13 @@
                         <div class="incidents" style="margin-left: 400px">
                             {% if systemInfo.tools is defined %}
                                 {% for tool in systemInfo.tools %}
-                                    {%  if tool.status != "none" %}
-                                    <div style="width: 100%; height: 25px">
-                                        <div class="{{ tool.status | replace({'/': '_'}) }} infoLabel"
-                                             style="float: left; width: 50px; position: relative; top: 0px; text-align: center; margin-right: 10px">{{ tool.status }}</div>
-                                        <div style="font-size: 13px">{{ tool.tool.name }}</div>
-                                    </div>
-                                        {% endif %}
+                                    {% if tool.status != "none" %}
+                                        <div style="width: 100%; height: 25px">
+                                            <div class="{{ tool.status | replace({'/': '_'}) }} infoLabel"
+                                                 style="float: left; width: 50px; position: relative; top: 0px; text-align: center; margin-right: 10px">{{ tool.status }}</div>
+                                            <div style="font-size: 13px">{{ tool.tool.name }}</div>
+                                        </div>
+                                    {% endif %}
                                 {% endfor %}
                             {% endif %}
                         </div>
