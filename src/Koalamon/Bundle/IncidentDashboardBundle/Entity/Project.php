@@ -335,6 +335,11 @@ class Project implements \JsonSerializable
         return $this->openIncidentCount;
     }
 
+    public function setOpenIncidentCount($count)
+    {
+        $this->openIncidentCount = $count;
+    }
+
     /**
      * @return \DateTime
      */
