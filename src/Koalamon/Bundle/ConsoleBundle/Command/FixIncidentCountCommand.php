@@ -35,7 +35,10 @@ class FixIncidentCountCommand extends ContainerAwareCommand
             $eventIdentifiers = $project->getEventIdentifiers();
             $incidentCount = 0;
             foreach ($eventIdentifiers as $eventIdentifier) {
-                if (!$eventIdentifier->isKnownIssue() && $eventIdentifier->getLastEvent()->getStatus() == Event::STATUS_FAILURE) {
+                if (!$eventIdentifier->isKnownIssue()
+                    && !is_null($eventIdentifier->getLastEvent())
+                    && $eventIdentifier->getLastEvent()->getStatus() == Event::STATUS_FAILURE
+                ) {
                     $incidentCount++;
                 }
             }
@@ -50,6 +53,6 @@ class FixIncidentCountCommand extends ContainerAwareCommand
             }
         }
 
-        $output->writeln("\n  <info>Done</info> " . $fixedProjetcs . " Project(s) corrected.\n");
+        $output->writeln("\n  <info>Done</info> " . $fixedProjetcs . " project(s) corrected.\n");
     }
 }

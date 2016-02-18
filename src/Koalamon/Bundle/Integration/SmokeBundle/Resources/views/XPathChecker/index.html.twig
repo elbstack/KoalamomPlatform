@@ -36,6 +36,10 @@
             It the score is lower than the given value the system will alert.
         </p>
 
+        {#<h2>Define XPath Sets</h2>
+
+        <h2></h2>#}
+
         <form id="integration_admin_form" style="padding-top: 20px" action="{{ path('koalamon_integration_smoke_xpath_store', {'project': project.identifier}) }}">
             <input type="radio" onchange="$('.configOptions').toggle();" name="status" value="all" {% if config.status == 'all' %}checked="checked{% endif %}"> Scan all Systems <br>
 
