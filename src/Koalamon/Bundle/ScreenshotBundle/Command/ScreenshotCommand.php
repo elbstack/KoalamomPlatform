@@ -1,15 +1,15 @@
 <?php
 
-namespace Koalamon\Bundle\ConsoleBundle\Command;
+namespace Koalamon\Bundle\ScreenshotBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ScreenshotCommand extends ContainerAwareCommand
 {
+    const IMAGE_DIR = '/images/screenshots/';
+
     protected function configure()
     {
         $this
@@ -24,7 +24,7 @@ class ScreenshotCommand extends ContainerAwareCommand
         $systems = $em->getRepository('KoalamonIncidentDashboardBundle:System')->findAll();
 
         $webDir = $this->getContainer()->getParameter('assetic.write_to');
-        $imageDir = $webDir . '/images/screenshots/';
+        $imageDir = $webDir . self::IMAGE_DIR;
 
         $phantomExec = $this->getExecutable('phantomjs');
         $timeoutExec = $this->getExecutable('timeout');
@@ -43,34 +43,29 @@ class ScreenshotCommand extends ContainerAwareCommand
 
         foreach ($systems as $system) {
 
-            if ($system->getUrl()) {
+            if (!$system->getParent()) {
+                if ($system->getUrl()) {
 
-                $imageName = time() . rand(1, 100000000) . '.png';
+                    $imageName = time() . rand(1, 100000000) . '.png';
 
-                /*$command = "$timeoutCommand $phantomExec "
-                    . __DIR__ . "/screenshot.js "
-                    . $system->getUrl() . " "
-                    . $imageDir . $imageName
-                    . " 1366px*2000px";
-                */
+                    $command = "$timeoutCommand $phantomExec "
+                        . __DIR__ . "/simpleshot.js "
+                        . $system->getUrl() . " "
+                        . $imageDir . $imageName;
 
-                $command = "$timeoutCommand $phantomExec "
-                    . __DIR__ . "/simpleshot.js "
-                    . $system->getUrl() . " "
-                    . $imageDir . $imageName;
+                    $output->writeln("Creating screenshot for " . $system->getUrl());
 
-                $output->writeln("Creating screenshot for " . $system->getUrl());
+                    exec($command, $commandOutput, $commandStatus);
 
-                exec($command, $commandOutput, $commandStatus);
+                    if ($commandStatus == 0) {
+                        if ($system->getImage() && file_exists($imageDir . $system->getImage())) {
+                            unlink($imageDir . $system->getImage());
+                        }
 
-                if ($commandStatus == 0) {
-                    if ($system->getImage() && file_exists($imageDir . $system->getImage())) {
-                        unlink($imageDir . $system->getImage());
+                        $system->setImage($imageName);
+                        $em->persist($system);
+                        $em->flush();
                     }
-
-                    $system->setImage($imageName);
-                    $em->persist($system);
-                    $em->flush();
                 }
             }
         }

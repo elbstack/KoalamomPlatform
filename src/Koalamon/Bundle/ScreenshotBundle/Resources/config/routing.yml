@@ -1,0 +1,3 @@
+koalamon_screenshot_get:
+    path:     /p/{project}/screenshots/{systemIdentifier}/screen.png
+    defaults: { _controller: KoalamonScreenshotBundle:Default:get }
