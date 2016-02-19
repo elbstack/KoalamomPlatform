@@ -49,13 +49,14 @@
 
             var cell4 = newRow.insertCell(4);
             storeButton = '<div class="button" style="margin-left: 0; width: auto; display: inline; margin-right: 5px" onclick="storeSystem(' + systemId + ')">store</div>';
-            deleteButton = '<div class="button" style="margin-left: 0; width: auto; display: inline; margin-right: 5px" onclick="deleteSystem(' + systemId + ')">delete</div>';
+            deleteButtonMainSystem = '<div class="button" style="margin-left: 0; width: auto; display: inline; margin-right: 5px" onclick="deleteSystem(' + systemId + ')">delete</div>';
+            deleteButtonSubSystem = '<div class="button" style="margin-left: 0; width: auto; display: inline; margin-right: 5px" onclick="deleteSystem(' + systemId + ', true)">delete</div>';
             addSubSystemButton = '<div class="button" style="margin-left: 0; width: auto; display: inline; margin-right: 5px" onclick="addSubSystem(' + systemId + ')">add subsystem</div>';
 
             if (parent) {
-                cell4.innerHTML = storeButton + deleteButton;
+                cell4.innerHTML = storeButton + deleteButtonSubSystem;
             } else {
-                cell4.innerHTML = addSubSystemButton + storeButton + deleteButton;
+                cell4.innerHTML = addSubSystemButton + storeButton + deleteButtonMainSystem;
             }
 
         }
@@ -90,12 +91,9 @@
             });
         }
 
-        function deleteSystem(element) {
+        function deleteSystem(element, mainSystem) {
             var url = '{{ path('koalamon_default_admin_system_delete', { 'project': project.identifier }) }}';
-
             var id = $('#id' + element).val();
-
-            console.log('#id' + element);
 
             if (id) {
                 $.post(url, {
@@ -106,15 +104,151 @@
                         toastr.warning(data['message']);
                     } else {
                         toastr.success(data['message']);
-                        $('#row_' + data['id']).remove();
+                        data['deletedIds'].forEach(function (entry) {
+                            $('#row_' + entry).remove();
+                        });
                     }
                 });
             } else {
+
                 $('#row_' + data['id']).remove();
             }
         }
     </script>
+    {#
+        <style>
+            .box {
+                background-color: #f9f9f9;
+                border: 1px solid #bbb;
+                padding: 20px;
+                margin-bottom: 10px;
+            }
 
+            .system-element-container {
+                margin-bottom: 50px;
+                width: 370px;
+                margin-right: 50px;
+            }
+
+            .system-element-container .system-list-element {
+                margin-bottom: 10px;
+            }
+
+            .system-element-container label {
+                width: 100px;
+                display: block;
+                float: left;
+                font-size: 12px;
+                padding-top: 3px;
+            }
+
+            .system-element-container .system-list-element input {
+                width: 200px;
+            }
+
+            .system-list .system-list-element div {
+                padding-bottom: 10px;
+            }
+
+            .system-image {
+                text-align: center;
+                margin-bottom: 20px;
+                height: 390px;
+            }
+
+            .system-image img {
+                width: 200px;
+            }
+
+            .system-element-container textarea {
+                width: 200px;
+                border-color: #bbb;
+                resize: none;
+                height: 50px;
+            }
+
+            .system-element-container input[type="submit"], button {
+                margin-left: 100px;
+                width: 205px;
+                float: none;
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .system-list-subsystem {
+                margin-left: 105px;
+                font-size: 12px;
+                padding-top: 2px;
+            }
+
+            .system-element-container .system-list-element h2 {
+                margin-top: 0;
+                margin-bottom: 20px;
+                font-size: 19px;
+                text-align: center;
+            }
+
+            .system-element-container h3 {
+                text-transform: none;
+                font-size: 15px;
+                margin-left: 15px;
+            }
+
+            .system-element-container h4 {
+                text-transform: none;
+                font-size: 15px;
+                font-weight: 400;
+                margin: 0;
+            }
+
+            .system-element-container {
+                float: left;
+            }
+        </style>
+
+        <div class="content" id="admin-systems">
+            <h1>Systems</h1>
+
+            <p>Lorem ipsum</p>
+
+            <div class="system-list" style="width: {{ systems|length * 500 }}px">
+                {% for system in systems %}
+                    <div class="system-element-container">
+                        <div class="system-list-element box" id="system-{{ system.id }}">
+                            <h2>{{ system.name }}</h2>
+                            <input type="hidden" value="{{ system.id }}" id="system-id-{{ system.id }}">
+
+                            <div class="system-image">
+                                {% if system.image %}
+                                    <img src="{{ path('koalamon_screenshot_get', {'project': project.identifier, 'systemIdentifier': system.identifier}) }}">
+                                {% endif %}
+                            </div>
+                            <div><label for="system-identifier-{{ system.id }}">Identifier</label> <input type="text" value="{{ system.identifier }}" id="system-identifier-{{ system.id }}"></div>
+                            <div><label for="system-name-{{ system.id }}" style="font-weight: 800">Name</label> <input type="text" value="{{ system.name }}" id="system-name-{{ system.id }}"></div>
+                            <div><label for="system-url-{{ system.id }}">URL</label> <input type="url" name="" value="{{ system.url }}" id="system-url-{{ system.id }}"></div>
+                            <div>
+                                <label for="system-desc-{{ system.id }}">Description</label>
+                                <textarea id="system-desc-{{ system.id }}">{{ system.description }}</textarea>
+                            </div>
+                            <div>
+                                <input type="submit" value="delete" onclick="deleteSystem({{ system.id }})">
+                                <input type="submit" value="store" onclick="storeSystem({{ system.id }}, false);">
+                            </div>
+                        </div>
+                        <h3><strong>Subsystems</strong> (add new)</h3>
+                        {% for subsystem in system.subsystems %}
+                            <div class="box">
+                                <h4>{{ subsystem.name }}</h4>
+                                <div class="system-list-subsystem">{{ subsystem.name }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div style="clear: both"></div>
+    #}
     <div class="box-element">
         <div class="box-element-header">Systems</div>
         <div class="box-element-content">

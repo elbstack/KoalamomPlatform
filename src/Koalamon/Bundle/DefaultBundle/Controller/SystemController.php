@@ -21,9 +21,10 @@ class SystemController extends ProjectAwareController
         return $this->render('KoalamonDefaultBundle:System:admin.html.twig', ['systems' => $systems]);
     }
 
-    private function getJsonResponse($status, $message, $elementId, $id = 0)
+    private function getJsonResponse($status, $message, $elementId, $id = 0, array $data = array())
     {
-        return new JsonResponse(['status' => $status, 'message' => $message, 'id' => $id, 'elementId' => $elementId]);
+        $mainData = array_merge(['status' => $status, 'message' => $message, 'id' => $id, 'elementId' => $elementId], $data);
+        return new JsonResponse($mainData);
     }
 
     public function storeSystemAction(Request $request)
@@ -80,6 +81,40 @@ class SystemController extends ProjectAwareController
         return $this->getJsonResponse('success', 'System "' . $systemObject->getName() . '" successfully saved.', (int)$system['elementId'], $systemObject->getId());
     }
 
+    private function removeSystem(System $system)
+    {
+        $deletedIds = [];
+
+        $em = $this->getDoctrine()->getManager();
+
+        // remove subsystems
+        foreach ($system->getSubsystems() as $child) {
+            $deletedIds = $this->removeSystem($child);
+        }
+
+        // @todo should be done via an event
+        // remove integration systems
+        $integrationSystems = $this->getDoctrine()->getRepository('KoalamonIntegrationBundle:IntegrationSystem')->findBy(['system' => $system]);
+        foreach ($integrationSystems as $integrationSystem) {
+            $em->remove($integrationSystem);
+        }
+
+        // collected systems
+        $collections = $this->getDoctrine()->getRepository('KoalamonIntegrationMissingRequestBundle:Collection')->findBy(['project' => $system->getProject()]);
+        foreach ($collections as $collection) {
+            $collection->removeSystem($system);
+            $em->persist($collection);
+            $em->flush();
+        }
+
+        $deletedIds[] = $system->getId();
+
+        $em->remove($system);
+        $em->flush();
+
+        return $deletedIds;
+    }
+
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -92,15 +127,8 @@ class SystemController extends ProjectAwareController
             ->getRepository('KoalamonIncidentDashboardBundle:System')
             ->find($request->get("system_id"));
 
-        $em = $this->getDoctrine()->getManager();
+        $deletedIds = $this->removeSystem($systemObject);
 
-        foreach ($systemObject->getSubsystems() as $child) {
-            $em->remove($child);
-        }
-
-        $em->remove($systemObject);
-        $em->flush();
-
-        return $this->getJsonResponse('success', 'System "' . $systemObject->getName() . '" deleted . ', '', $request->get("system_id"));
+        return $this->getJsonResponse('success', 'System "' . $systemObject->getName() . '" deleted . ', $request->get("system_id"), $request->get("system_id"), ['deletedIds' => $deletedIds]);
     }
 }
