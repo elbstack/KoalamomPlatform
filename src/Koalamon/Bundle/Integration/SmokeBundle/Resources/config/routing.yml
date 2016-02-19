@@ -25,3 +25,14 @@ koalamon_integration_smoke_xpath_homepage:
 koalamon_integration_smoke_xpath_store:
     path:     /p/{project}/integrations/smoke/xpath/store
     defaults: { _controller: KoalamonIntegrationSmokeBundle:XPathChecker:store }
+
+
+# Json Validator
+
+koalamon_integration_smoke_json_homepage:
+    path:     /p/{project}/integrations/smoke/json/
+    defaults: { _controller: KoalamonIntegrationSmokeBundle:JsonValidator:index }
+
+koalamon_integration_smoke_json_store:
+    path:     /p/{project}/integrations/smoke/json/store
+    defaults: { _controller: KoalamonIntegrationSmokeBundle:JsonValidator:store }

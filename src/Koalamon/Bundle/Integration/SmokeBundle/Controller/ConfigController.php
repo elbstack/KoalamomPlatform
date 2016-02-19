@@ -69,6 +69,24 @@ class ConfigController extends SystemAwareIntegrationController
         return ['LittleSeo_Robots' => ['systems' => $activeSystems, 'rule' => $rule]];
     }
 
+    private function getJsonValidatorConfig()
+    {
+        $jsonSystems = $this->getActiveSystemsForProject($this->getProject(), JsonValidatorController::INTEGRATION_ID);
+
+        $rule = ['class' => 'whm\Smoke\Rules\Json\ValidRule'];
+
+        $activeSystems = [];
+
+        foreach ($jsonSystems as $jsonSystem) {
+            $activeSystems[] = $jsonSystem[0]['system'];
+        }
+
+        return ['JsonValidator_Default' => ['systems' => $activeSystems, 'rule' => $rule]];
+    }
+
+    /**
+     * @return array
+     */
     private function getXPathConfig()
     {
         $xpathSystems = $this->getActiveSystemsForProject($this->getProject(), XPathCheckerController::INTEGRATION_ID);
@@ -81,7 +99,13 @@ class ConfigController extends SystemAwareIntegrationController
             $identifier = 'XPathChecker_' . $system['system']->getId();
 
             $xpaths = $system['options']['xpaths'];
-            $rule = ['class' => 'whm\Smoke\Rules\Html\XPathExistsRule', 'parameters' => ['xPaths' => array_values($xpaths)]];
+
+            if (is_null($xpaths)) {
+                $xpathRules = [];
+            } else {
+                $xpathRules = array_values($xpaths);
+            }
+            $rule = ['class' => 'whm\Smoke\Rules\Html\XPathExistsRule', 'parameters' => ['xPaths' => $xpathRules]];
 
             $activeSystems[$identifier] = ['systems' => [$system['system']], 'rule' => $rule];
         }
@@ -107,6 +131,7 @@ class ConfigController extends SystemAwareIntegrationController
 
         $activeSystems = $this->getActiveLittleSeoConfig();
         $activeSystems = array_merge($activeSystems, $this->getXPathConfig());
+        $activeSystems = array_merge($activeSystems, $this->getJsonValidatorConfig());
 
         $rules = ['rules' => []];
         foreach ($activeSystems as $key => $activeSystem) {

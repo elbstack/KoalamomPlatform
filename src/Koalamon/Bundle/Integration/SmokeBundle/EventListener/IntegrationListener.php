@@ -24,5 +24,8 @@ class IntegrationListener
 
         $url = $this->router->generate('koalamon_integration_smoke_xpath_homepage', ['project' => $event->getProject()->getIdentifier()]);
         $integrationContainer->addIntegration(new Integration('XPath Checker', '', 'Checking if given XPaths do exist.', $url));
+
+        $url = $this->router->generate('koalamon_integration_smoke_json_homepage', ['project' => $event->getProject()->getIdentifier()]);
+        $integrationContainer->addIntegration(new Integration('Json Validator', '', 'Checking if given Systems return valid json', $url));
     }
 }
