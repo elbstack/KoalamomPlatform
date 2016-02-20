@@ -6,7 +6,7 @@
  * Time: 07:45
  */
 
-namespace Koalamon\Bundle;
+namespace Koalamon;
 
 class BundleKernel
 {
