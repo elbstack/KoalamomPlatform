@@ -13,6 +13,8 @@ class BundleKernel
     public static function registerBundles()
     {
         $bundles = [
+            new \Koalamon\Bundle\CoreBundle\KoalamonCoreBundle(),
+
             new \Koalamon\Bundle\IncidentDashboardBundle\KoalamonIncidentDashboardBundle(),
             new \Koalamon\Bundle\StatBundle\KoalamonStatBundle(),
             new \Koalamon\Bundle\DefaultBundle\KoalamonDefaultBundle(),
