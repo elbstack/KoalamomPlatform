@@ -27,8 +27,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Koalamon\\Bundle\\": "src/Koalamon/Bundle",
-      "Koalamon\\Component\\": "src/Koalamon/Component"
+      "Koalamon\\": "src/Koalamon/"
     }
   }
 }
