@@ -1,7 +1,0 @@
-services:
-
-    koalamonintegration.smokebasic.init:
-        class: Koalamon\Bundle\Integration\SmokeBasicBundle\EventListener\IntegrationListener
-        arguments: [ @service_container ]
-        tags:
-            - { name: 'kernel.event_listener', event: 'koalamon.integration.init', method: onInit }

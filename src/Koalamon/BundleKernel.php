@@ -10,7 +10,7 @@ namespace Koalamon;
 
 class BundleKernel
 {
-    public static function registerBundles()
+    public static function registerBundles($environment)
     {
         $bundles = [
             new \Koalamon\Bundle\CoreBundle\KoalamonCoreBundle(),
@@ -25,17 +25,7 @@ class BundleKernel
             new \Koalamon\Bundle\PluginBundle\KoalamonPluginBundle(),
             new \Koalamon\Bundle\ScreenshotBundle\KoalamonScreenshotBundle(),
 
-            // integrations -> some will be moved to LeanKoala bundle
             new \Koalamon\Bundle\IntegrationBundle\KoalamonIntegrationBundle(),
-            new \Koalamon\Bundle\Integration\KoalaPingBundle\KoalamonIntegrationKoalaPingBundle(),
-            new \Koalamon\Bundle\Integration\WebhookBundle\KoalamonIntegrationWebhookBundle(),
-            new \Koalamon\Bundle\Integration\MissingRequestBundle\KoalamonIntegrationMissingRequestBundle(),
-            new \Koalamon\Bundle\Integration\GooglePageSpeedBundle\KoalamonIntegrationGooglePageSpeedBundle(),
-            new \Koalamon\Bundle\Integration\JsErrorScannerBundle\KoalamonIntegrationJsErrorScannerBundle(),
-            new \Koalamon\Bundle\Integration\SiteInfoBundle\KoalamonIntegrationSiteInfoBundle(),
-            new \Koalamon\Bundle\Integration\SmokeBundle\KoalamonIntegrationSmokeBundle(),
-            new \Koalamon\Bundle\Integration\SmokeBasicBundle\KoalamonIntegrationSmokeBasicBundle(),
-
             new \Koalamon\Bundle\GeckoBoardBundle\KoalamonGeckoBoardBundle(),
 
             new \Koalamon\NotificationBundle\KoalamonNotificationBundle(),
