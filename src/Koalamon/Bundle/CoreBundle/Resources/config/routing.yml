@@ -41,3 +41,7 @@ koalamon_stat:
 koalamon_webhook:
     resource: "@KoalamonWebhookBundle/Resources/config/routing.yml"
     prefix:   /
+
+koalamon_screenshot:
+    resource: "@KoalamonScreenshotBundle/Resources/config/routing.yml"
+    prefix:   /
