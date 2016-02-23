@@ -73,8 +73,6 @@ class ToolController extends ProjectAwareController
             $toolObject->setSystemSpecific(false);
         }
 
-        $toolObject->setInterval((int)$tool["interval"]);
-
         $em = $this->getDoctrine()->getManager();
         $em->persist($toolObject);
         $em->flush();

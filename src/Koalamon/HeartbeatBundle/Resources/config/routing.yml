@@ -1,0 +1,7 @@
+koalamon_heartbeat_homepage:
+    path:     /p/{project}/admin/heartbeat/
+    defaults: { _controller: KoalamonHeartbeatBundle:Default:index }
+
+koalamon_heartbeat_store:
+    path:     /p/{project}/admin/heartbeat/store
+    defaults: { _controller: KoalamonHeartbeatBundle:Default:store }

@@ -1,0 +1,51 @@
+{% extends 'KoalamonDefaultBundle:Default:master/admin.html.twig' %}
+
+{% block admin %}
+
+    <h1>Heartbeat</h1>
+
+    <p style="width: 800px; color: #111; margin-bottom: 50px; font-weight: 200">
+        The heartbeat extension can be used to check if a tool has reported to koalamon within a given interval. For example if you know that your
+        ping system reports every five minutes to koalamon you can set the interval to 5. If the tool does not send any events in the given
+        period heartbeat will alert. <br> <br>
+        This list only shows active <a href="{{ path('koalamon_default_tool_admin' , {'project': project.identifier}) }}">tools</a>.
+    </p>
+
+    <script>
+        function heartbeatStore() {
+            url = '{{ path('koalamon_heartbeat_store', {'project': project.identifier }) }}';
+
+            $.post(url, $("#heartbeat").serialize(), function (data) {
+                if (data['status'] == 'failure') {
+                    toastr.warning(data['message']);
+                } else {
+                    toastr.success(data['message']);
+                }
+            });
+        }
+    </script>
+
+    <input type="submit" value="store" onclick="heartbeatStore(); return false;">
+
+    <form id="heartbeat">
+        <div style="margin-top: 30px; margin-bottom: 30px">
+            <div style="width: 600px; float: left; margin-bottom: 20px; color: #555">Tool</div>
+            <div style="margin-bottom: 20px; color: #555">Interval</div>
+            {% for tool in project.tools %}
+                <div style="margin-top: 20px">
+                    <div style="float:left; width: 600px">
+                        <div style="font-size: 20px; font-weight: 400">{{ tool.name }}</div>
+                        <div style="font-size: 14px; font-weight: 400">{{ tool.description }}</div>
+                    </div>
+                    <div>
+                        <input type="number" min="0" style="width: 50px; margin-right: 10px" name="tools[{{ tool.identifier }}]" value="{{ tool.interval }}"> min
+                    </div>
+                </div>
+                <div style="clear: both"></div>
+            {% endfor %}
+        </div>
+
+        <button onclick="heartbeatStore(); return false;">store</button>
+    </form>
+
+{% endblock %}

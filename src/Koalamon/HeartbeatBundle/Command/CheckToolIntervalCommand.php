@@ -1,6 +1,6 @@
 <?php
 
-namespace Koalamon\Bundle\ConsoleBundle\Command;
+namespace Koalamon\HeartbeatBundle\Command;
 
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Event;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\EventIdentifier;
@@ -42,11 +42,11 @@ class CheckToolIntervalCommand extends ContainerAwareCommand implements CheckToo
 
                 $interval = $tool->getInterval() + 1;
                 $now = new \DateTime();
-                $lastEventLimit = $now->sub(new \DateInterval("PT".$interval."M"));
+                $lastEventLimit = $now->sub(new \DateInterval("PT" . $interval . "M"));
 
                 $newEvent = new Event();
 
-                $identifierString = 'koalamon_tool_intervalcheck_'.$tool->getIdentifier();
+                $identifierString = 'koalamon_tool_intervalcheck_' . $tool->getIdentifier();
 
                 $identifier = $em->getRepository('KoalamonIncidentDashboardBundle:EventIdentifier')->findOneBy(
                     array("project" => $tool->getProject(), "identifier" => $identifierString)
@@ -68,12 +68,11 @@ class CheckToolIntervalCommand extends ContainerAwareCommand implements CheckToo
                 if ($event->getCreated() < $lastEventLimit) {
                     $newEvent->setStatus(Event::STATUS_FAILURE);
 
-                    $message = "The tool '".$tool->getName()."' did not send any events since ".$event->getCreated(
-                        )->format("d.m.Y H:i:m").".";
+                    $message = "The tool '" . $tool->getName() . "' did not send any events since " . $event->getCreated()->format("d.m.Y H:i:m") . ".";
                     $newEvent->setMessage($message);
 
                     $output->writeln(
-                        "project_id: ".$event->getEventIdentifier()->getProject()->getId()." -- ".$message
+                        "project_id: " . $event->getEventIdentifier()->getProject()->getId() . " -- " . $message
                     );
                 } else {
                     $newEvent->setStatus(Event::STATUS_SUCCESS);

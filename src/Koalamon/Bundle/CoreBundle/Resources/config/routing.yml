@@ -1,3 +1,7 @@
+koalamon_heartbeat:
+    resource: "@KoalamonHeartbeatBundle/Resources/config/routing.yml"
+    prefix:   /
+
 koalamon_incident_dashboard:
     resource: "@KoalamonIncidentDashboardBundle/Resources/config/routing.yml"
     prefix:   /

@@ -11,7 +11,6 @@
                     <td>Identifier</td>
                     <td>Name</td>
                     <td>Description</td>
-                    <td>Interval</td>
                     <td>System<br/>specific</td>
                     <td>Connected<br/>Events</td>
                 </thead>
@@ -36,9 +35,6 @@
                             </td>
                             <td>
                                 <input type="text" style="width: 510px" value="{{ tool.description }}" name="tool[description]">
-                            </td>
-                            <td>
-                                <input type="text" style="width: 20px" value="{{ tool.interval }}" name="tool[interval]">
                             </td>
                             <td>
                                 <input type="checkbox" {% if tool.systemSpecific %}checked="checked"{% endif %}" name="tool[systemSpecific]">
@@ -76,9 +72,6 @@
                         </td>
                         <td>
                             <input type="text" style="width: 510px" name="tool[description]">
-                        </td>
-                        <td>
-                            <input type="text" style="width: 20px" name="tool[interval]">
                         </td>
                         <td>
                             <input type="checkbox" name="tool[notify]">

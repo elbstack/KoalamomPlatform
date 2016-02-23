@@ -13,22 +13,26 @@ class BundleKernel
     public static function registerBundles($environment)
     {
         $bundles = [
-            new \Koalamon\Bundle\CoreBundle\KoalamonCoreBundle(),
+            new Bundle\CoreBundle\KoalamonCoreBundle(),
 
-            new \Koalamon\Bundle\IncidentDashboardBundle\KoalamonIncidentDashboardBundle(),
-            new \Koalamon\Bundle\StatBundle\KoalamonStatBundle(),
-            new \Koalamon\Bundle\DefaultBundle\KoalamonDefaultBundle(),
-            new \Koalamon\Bundle\WebhookBundle\KoalamonWebhookBundle(),
-            new \Koalamon\Bundle\ConsoleBundle\KoalamonConsoleBundle(),
-            new \Koalamon\Bundle\RestBundle\KoalamonRestBundle(),
-            new \Koalamon\Bundle\InformationBundle\KoalamonInformationBundle(),
-            new \Koalamon\Bundle\PluginBundle\KoalamonPluginBundle(),
-            new \Koalamon\Bundle\ScreenshotBundle\KoalamonScreenshotBundle(),
+            new Bundle\IncidentDashboardBundle\KoalamonIncidentDashboardBundle(),
+            new Bundle\StatBundle\KoalamonStatBundle(),
+            new Bundle\DefaultBundle\KoalamonDefaultBundle(),
+            new Bundle\WebhookBundle\KoalamonWebhookBundle(),
+            new Bundle\ConsoleBundle\KoalamonConsoleBundle(),
+            new Bundle\RestBundle\KoalamonRestBundle(),
+            new Bundle\InformationBundle\KoalamonInformationBundle(),
+            new Bundle\PluginBundle\KoalamonPluginBundle(),
+            new Bundle\ScreenshotBundle\KoalamonScreenshotBundle(),
 
-            new \Koalamon\Bundle\IntegrationBundle\KoalamonIntegrationBundle(),
-            new \Koalamon\Bundle\GeckoBoardBundle\KoalamonGeckoBoardBundle(),
+            new HeartbeatBundle\KoalamonHeartbeatBundle(),
 
-            new \Koalamon\NotificationBundle\KoalamonNotificationBundle(),
+            new Bundle\IntegrationBundle\KoalamonIntegrationBundle(),
+            new Bundle\GeckoBoardBundle\KoalamonGeckoBoardBundle(),
+
+
+            new NotificationBundle\KoalamonNotificationBundle(),
+
         ];
 
         return $bundles;
