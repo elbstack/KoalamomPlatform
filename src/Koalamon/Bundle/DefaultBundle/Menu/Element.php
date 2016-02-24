@@ -7,6 +7,7 @@ class Element
     private $url;
     private $name;
     private $identifier;
+    private $subElements = [];
 
     /**
      * Element constructor.
@@ -43,5 +44,23 @@ class Element
     public function getIdentifier()
     {
         return $this->identifier;
+    }
+
+    /**
+     * @return Element[]
+     */
+    public function getSubElements()
+    {
+        return $this->subElements;
+    }
+
+    public function addSubElement(Element $element)
+    {
+        $this->subElements[] = $element;
+    }
+
+    public function hasSubElements()
+    {
+        return count($this->subElements) > 0;
     }
 }

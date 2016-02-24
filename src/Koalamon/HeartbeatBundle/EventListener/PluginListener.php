@@ -19,7 +19,7 @@ class PluginListener
         $menu = $event->getMenu();
         $project = $event->getProject();
 
-        $menu->addElement(new Element($this->router->generate('koalamon_heartbeat_homepage', ['project' => $project->getIdentifier()], true),
-            'Heartbeat', 'menu_admin_heartbeat'));
+        #$menu->addElement(new Element($this->router->generate('koalamon_heartbeat_homepage', ['project' => $project->getIdentifier()], true),
+        #    'Heartbeat', 'menu_admin_heartbeat'));
     }
 }

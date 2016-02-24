@@ -24,8 +24,15 @@ class AdminController extends ProjectAwareController
         $menu->addElement(new Element($this->generateUrl('koalamon_default_system_admin', ['project' => $project->getIdentifier()], true),
             'Systems', 'menu_admin_systems'));
 
-        $menu->addElement(new Element($this->generateUrl('koalamon_default_tool_admin', ['project' => $project->getIdentifier()], true),
-            'Tools', 'menu_admin_tools'));
+        $toolElement = new Element($this->generateUrl('koalamon_default_tool_admin', ['project' => $project->getIdentifier()], true),
+            'Tools', 'menu_admin_tools');
+
+        $toolElement->addSubElement(new Element($this->generateUrl('koalamon_default_tool_admin', ['project' => $project->getIdentifier()], true),
+            'Default', 'menu_admin_tools'));
+
+        $toolElement->addSubElement(new Element($this->generateUrl('koalamon_heartbeat_homepage', ['project' => $project->getIdentifier()], true), 'Heartbeat', 'menu_admin_tools_heartbeat'));
+
+        $menu->addElement($toolElement);
 
         $menu->addElement(new Element($this->generateUrl('koalamon_default_admin_translation_home', ['project' => $project->getIdentifier()], true),
             'Translations', 'menu_admin_translations'));

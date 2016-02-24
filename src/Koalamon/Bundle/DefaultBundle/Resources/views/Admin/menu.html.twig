@@ -2,7 +2,8 @@
     #menu-admin {
         list-style: none;
         padding: 0;
-        padding-bottom: 50px;
+        padding-bottom: 20px;
+        height: 100px;
     }
 
     .menu-admin-element {
@@ -30,8 +31,32 @@
 
 <ul id="menu-admin">
     {% for element in menu.elements %}
-        <li class="{{ element.identifier }} menu-admin-element {% if currentUri == element.url %}active{% endif %}">
+        {% if currentUri == element.url %}
+            {% set status = "active" %}
+        {% else %}
+            {% set status = "inactive" %}
+        {% endif %}
+        {% if element.hasSubElements %}
+            {% for subElement in element.subElements %}
+                {% if subElement.url == currentUri %}
+                    {% set status = "active" %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <li class="{{ element.identifier }} menu-admin-element {% if status == "active" %}active{% endif %}">
             <a href="{{ element.url }}">{{ element.name }}</a>
+
+            {% if status== "active" %}
+                {% if element.hasSubElements %}
+                    <div style="position: absolute; margin-top: 10px">
+                        {% for subElement in element.subElements %}
+                            <div style="float: left; margin-right:10px;padding: 5px; margin-top: 5px; border-radius: 5px; color: white; background-color:{% if subElement.url == currentUri %}#7f8c8d{% else %}#eaeaea{% endif %}">
+                                <a style="{% if subElement.url != currentUri %}color: black{% endif %}" href="{{ subElement.url }}">{{ subElement.name }}</a></div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endif %}
         </li>
     {% endfor %}
 </ul>
