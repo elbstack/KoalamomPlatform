@@ -39,6 +39,7 @@ class ProjectHelper
             $system = new System();
             $system->setIdentifier($rawEvent->getSystem());
             $system->setName($rawEvent->getSystem());
+            $system->setProject($project);
 
             $doctrineManager->persist($system);
             $doctrineManager->flush();
