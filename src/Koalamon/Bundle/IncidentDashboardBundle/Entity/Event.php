@@ -119,7 +119,6 @@ class Event implements \JsonSerializable
     public function setSystem($system)
     {
         $this->system = $system;
-
         return $this;
     }
 

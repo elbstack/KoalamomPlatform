@@ -21,4 +21,12 @@ class Menu
     {
         return $this->elements;
     }
+
+    /**
+     * @param string $identifier
+     * @return Element
+     */
+    public function getElement($identifier) {
+        return $this->elements[$identifier];
+    }
 }

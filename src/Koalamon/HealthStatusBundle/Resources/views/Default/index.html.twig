@@ -1,0 +1,130 @@
+{% extends 'KoalamonDefaultBundle:Default:master/admin.html.twig' %}
+
+{% block admin %}
+
+    <style>
+        p {
+            color: #111;
+            margin-bottom: 50px;
+            font-weight: 200;
+        }
+
+        button {
+            background-color: #7f8c8d;
+            padding: 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #main #admin-content {
+            width: 800px;
+        }
+
+        #main #admin-content h2 {
+            font-size: 22px;
+            border-bottom: 1px solid #bbb;
+            padding-bottom: 10px;
+            margin-top: 100px;
+        }
+
+        #main #admin-content .info {
+            background-color: #eee;
+            font-size: 16px;
+            padding: 15px;
+            margin-bottom: 50px;
+            margin-top: 30px;
+            font-weight: 200;
+            line-height: 25px;
+        }
+    </style>
+
+    <h1>Health Status</h1>
+
+    <div class="info">
+        The health status feature helps you to define major incidents by scoring the existing tools
+        and create thresholds for your systems.
+    </div>
+
+    <script>
+        function healthStatusScoreStore() {
+            url = '{{ path('koalamon_health_status_score_store', {'project': project.identifier }) }}';
+
+            $.post(url, $("#healthstatus-score").serialize(), function (data) {
+                if (data['status'] == 'failure') {
+                    toastr.warning(data['message']);
+                } else {
+                    toastr.success(data['message']);
+                }
+            });
+        }
+
+        function healthStatusThresholdsStore() {
+            url = '{{ path('koalamon_health_status_thresholds_store', {'project': project.identifier }) }}';
+
+            $.post(url, $("#healthstatus-thresholds").serialize(), function (data) {
+                if (data['status'] == 'failure') {
+                    toastr.warning(data['message']);
+                } else {
+                    toastr.success(data['message']);
+                }
+            });
+        }
+    </script>
+
+    <h2>Scoring</h2>
+
+    <p>
+        The health status of a system is defined by the sum of all scores of the failing tools.
+    </p>
+
+    <form id="healthstatus-score">
+        <div style="margin-top: 30px; margin-bottom: 30px">
+            <div style="width: 734px; float: left; margin-bottom: 20px; color: #555">Tool</div>
+            <div style="margin-bottom: 20px; color: #555">Score</div>
+            {% for tool in project.tools %}
+                <div style="margin-top: 20px">
+                    <div style="float:left; width: 734px">
+                        <div style="font-size: 20px; font-weight: 400">{{ tool.name }}</div>
+                        <div style="font-size: 14px; font-weight: 200">{{ tool.description }}</div>
+                    </div>
+                    <div>
+                        <input type="number" min="0" max="1000" style="width: 50px; margin-right: 10px" name="tools[{{ tool.identifier }}]" value="{{ tool.score }}">
+                    </div>
+                </div>
+                <div style="clear: both"></div>
+            {% endfor %}
+        </div>
+
+        <button onclick="healthStatusScoreStore(); return false;">Store Scores</button>
+    </form>
+
+    <h2>Thresholds</h2>
+
+    <p>
+        The health status of a system is defined by the sum of all scores of the failing tools.
+    </p>
+
+
+    <form id="healthstatus-thresholds">
+        <div style="margin-top: 30px; margin-bottom: 30px">
+            <div style="width: 734px; float: left; margin-bottom: 20px; color: #555">Tool</div>
+            <div style="margin-bottom: 20px; color: #555">Score</div>
+            {% for system in project.systems %}
+                <div style="margin-top: 20px">
+                    <div style="float:left; width: 734px">
+                        <div style="font-size: 20px; font-weight: 400">{{ system.name }}</div>
+                        <div style="font-size: 14px; font-weight: 200">{{ system.description }}</div>
+                    </div>
+                    <div>
+                        <input type="number" min="0" max="1000" style="width: 50px; margin-right: 10px" name="systems[{{ system.identifier }}]" value="{{ system.threshold }}">
+                    </div>
+                </div>
+                <div style="clear: both"></div>
+            {% endfor %}
+        </div>
+
+        <button onclick="healthStatusThresholdsStore(); return false;">Store Thresholds</button>
+    </form>
+
+{% endblock %}

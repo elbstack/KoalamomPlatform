@@ -58,35 +58,9 @@ class DefaultController extends Controller
             return $this->getJsonRespone(self::STATUS_SKIPPED);
         }
 
-        $event = new Event();
-
-        $event->setStatus($rawEvent->getStatus());
-        $event->setMessage($rawEvent->getMessage());
-        $event->setSystem($rawEvent->getSystem());
-        $event->setType($rawEvent->getType());
-        $event->setUnique($rawEvent->isUnique());
-        $event->setUrl($rawEvent->getUrl());
-        $event->setValue($rawEvent->getValue());
-
         $em = $this->getDoctrine()->getManager();
 
-        $identifier = $em->getRepository('KoalamonIncidentDashboardBundle:EventIdentifier')
-            ->findOneBy(array('project' => $project, 'identifier' => $rawEvent->getIdentifier()));
-
-        if (is_null($identifier)) {
-            $identifier = new EventIdentifier();
-            $identifier->setProject($project);
-            $identifier->setIdentifier($rawEvent->getIdentifier());
-
-            $em->persist($identifier);
-            $em->flush();
-        }
-
-        $event->setEventIdentifier($identifier);
-
-        $translatedEvent = $this->translate($event);
-
-        ProjectHelper::addEvent($this->get("Router"), $em, $translatedEvent, $this->get('event_dispatcher'));
+        ProjectHelper::addRawEvent($this->get("Router"), $em, $rawEvent, $project, $this->get('event_dispatcher'));
 
         return $this->getJsonRespone(self::STATUS_SUCCESS);
     }
@@ -109,21 +83,6 @@ class DefaultController extends Controller
         $formatHandler->addFormat("monitorus", new MonitorUsFormat());
 
         return $formatHandler;
-    }
-
-    private function translate(Event $event)
-    {
-        $translations = $this->getDoctrine()
-            ->getRepository('KoalamonIncidentDashboardBundle:Translation')
-            ->findBy(array('project' => $event->getEventIdentifier()->getProject()));
-
-        foreach ($translations as $translation) {
-            if (preg_match('^' . $translation->getIdentifier() . '^', $event->getEventIdentifier()->getIdentifier())) {
-                return $translation->translate($event);
-            }
-        }
-
-        return $event;
     }
 
     private function getProject($apiKey)

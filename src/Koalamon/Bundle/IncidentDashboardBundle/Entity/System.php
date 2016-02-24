@@ -47,9 +47,23 @@ class System implements \JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string", length=255)
+     * @ORM\Column(name="url", type="string", length=255,  nullable=true))
      */
     private $url;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="threshold", type="integer")
+     */
+    private $threshold = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="healthStatus", type="integer")
+     */
+    private $healthStatus = 0;
 
     /**
      * @var string
@@ -117,7 +131,7 @@ class System implements \JsonSerializable
      */
     public function getIdentifier()
     {
-        if($this->parent) {
+        if ($this->parent) {
             return $this->parent->getIdentifier();
         }
         return $this->identifier;
@@ -218,6 +232,38 @@ class System implements \JsonSerializable
     public function setParent(System $parent)
     {
         $this->parent = $parent;
+    }
+
+    /**
+     * @return int
+     */
+    public function getThreshold()
+    {
+        return $this->threshold;
+    }
+
+    /**
+     * @param int $threshold
+     */
+    public function setThreshold($threshold)
+    {
+        $this->threshold = $threshold;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHealthStatus()
+    {
+        return $this->healthStatus;
+    }
+
+    /**
+     * @param int $healthStatus
+     */
+    public function setHealthStatus($healthStatus)
+    {
+        $this->healthStatus = $healthStatus;
     }
 
     /**

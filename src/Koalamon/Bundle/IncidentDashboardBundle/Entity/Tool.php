@@ -70,7 +70,14 @@ class Tool implements \JsonSerializable
      *
      * @ORM\Column(name="`interval`", type="integer", nullable=true)
      */
-    private $interval = null;
+    private $interval = 0;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="score", type="integer")
+     */
+    private $score = 0;
 
     /**
      * @var boolean
@@ -270,7 +277,23 @@ class Tool implements \JsonSerializable
     {
         $this->systemSpecific = $systemSpecific;
     }
-    
+
+    /**
+     * @return int
+     */
+    public function getScore()
+    {
+        return $this->score;
+    }
+
+    /**
+     * @param int $score
+     */
+    public function setScore($score)
+    {
+        $this->score = $score;
+    }
+
     public function jsonSerialize()
     {
         return [

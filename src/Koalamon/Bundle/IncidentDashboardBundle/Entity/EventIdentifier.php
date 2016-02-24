@@ -76,6 +76,13 @@ class EventIdentifier
      **/
     private $project;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="System", inversedBy="eventIdentifiers")
+     * @ORM\JoinColumn(name="system_id", referencedColumnName="id")
+     **/
+    private $system;
+
     /**
      * @ORM\ManyToOne(targetEntity="Event", inversedBy="none")
      * @ORM\JoinColumn(name="last_event_id", referencedColumnName="id")
@@ -249,6 +256,22 @@ class EventIdentifier
     private function setMeanTimeToRecover($meanTimeToRecover)
     {
         $this->meanTimeToRecover = $meanTimeToRecover;
+    }
+
+    /**
+     * @return System
+     */
+    public function getSystem()
+    {
+        return $this->system;
+    }
+
+    /**
+     * @param mixed $system
+     */
+    public function setSystem($system)
+    {
+        $this->system = $system;
     }
 
     /**

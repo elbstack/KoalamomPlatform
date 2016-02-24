@@ -21,8 +21,13 @@ class AdminController extends ProjectAwareController
         $menu->addElement(new Element($this->generateUrl('koalamon_default_user_admin', ['project' => $project->getIdentifier()], true),
             'Collaborators', 'menu_admin_user'));
 
-        $menu->addElement(new Element($this->generateUrl('koalamon_default_system_admin', ['project' => $project->getIdentifier()], true),
-            'Systems', 'menu_admin_systems'));
+        $statusElement = new Element($this->generateUrl('koalamon_default_system_admin', ['project' => $project->getIdentifier()], true),
+            'Systems', 'menu_admin_systems');
+
+        $statusElement->addSubElement(new Element($this->generateUrl('koalamon_default_system_admin', ['project' => $project->getIdentifier()], true),
+            'Default', 'menu_admin_systems'));
+
+        $menu->addElement($statusElement);
 
         $toolElement = new Element($this->generateUrl('koalamon_default_tool_admin', ['project' => $project->getIdentifier()], true),
             'Tools', 'menu_admin_tools');

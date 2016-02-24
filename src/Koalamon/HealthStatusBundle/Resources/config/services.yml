@@ -1,0 +1,13 @@
+services:
+
+    koalamon.healthstatus.eventCreationListener:
+        class: Koalamon\HealthStatusBundle\EventListener\EventListener
+        arguments: [ @service_container ]
+        tags:
+            - { name: 'kernel.event_listener', event: 'koalamon.event.create', method: onEventCreate }
+
+    koalamon.healtstatus.adminMenu:
+        class: Koalamon\HealthStatusBundle\EventListener\PluginListener
+        arguments: [ @service_container ]
+        tags:
+            - { name: 'kernel.event_listener', event: 'koalamon.plugin.admin.menu.init', method: onKoalamonPluginAdminMenuInit }

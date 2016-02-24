@@ -1,0 +1,11 @@
+koalamon_health_status_homepage:
+    path:     /p/{project}/admin/healthstatus/
+    defaults: { _controller: KoalamonHealthStatusBundle:Default:index }
+
+koalamon_health_status_score_store:
+    path:     /p/{project}/admin/healthstatus/score/store
+    defaults: { _controller: KoalamonHealthStatusBundle:Default:storeScore }
+
+koalamon_health_status_thresholds_store:
+    path:     /p/{project}/admin/healthstatus/thresholds/store
+    defaults: { _controller: KoalamonHealthStatusBundle:Default:storeThresholds }

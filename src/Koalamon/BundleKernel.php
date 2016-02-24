@@ -25,6 +25,7 @@ class BundleKernel
             new Bundle\PluginBundle\KoalamonPluginBundle(),
             new Bundle\ScreenshotBundle\KoalamonScreenshotBundle(),
 
+            new HealthStatusBundle\KoalamonHealthStatusBundle(),
             new HeartbeatBundle\KoalamonHeartbeatBundle(),
 
             new Bundle\IntegrationBundle\KoalamonIntegrationBundle(),
