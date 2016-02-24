@@ -67,7 +67,7 @@ class EventListener
         $status = Event::STATUS_SUCCESS;
         $message = '';
 
-        if ($currentEvent->getStatus() == Event::STATUS_SUCCESS) {
+        if ($system->getThreshold() == 0 || $currentEvent->getStatus() == Event::STATUS_SUCCESS) {
             $healthStatus = max(0, $system->getHealthStatus() - $tool->getScore());
         } else {
             $healthStatus = $system->getHealthStatus() + $tool->getScore();
