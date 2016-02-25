@@ -25,14 +25,14 @@
             font-size: 22px;
             border-bottom: 1px solid #bbb;
             padding-bottom: 10px;
-            margin-top: 100px;
+            margin-top: 80px;
         }
 
         #main #admin-content .info {
             background-color: #eee;
             font-size: 16px;
             padding: 15px;
-            margin-bottom: 50px;
+            margin-bottom: 10px;
             margin-top: 30px;
             font-weight: 200;
             line-height: 25px;
@@ -113,16 +113,18 @@
             <div style="width: 734px; float: left; margin-bottom: 20px; color: #555">Tool</div>
             <div style="margin-bottom: 20px; color: #555">Score</div>
             {% for system in project.systems %}
-                <div style="margin-top: 20px">
-                    <div style="float:left; width: 734px">
-                        <div style="font-size: 20px; font-weight: 200; line-height: 25px;">{{ system.name }}</div>
-                        <div style="font-size: 14px; font-weight: 200">{{ system.description }}</div>
+                {% if not system.parent %}
+                    <div style="margin-top: 20px">
+                        <div style="float:left; width: 734px">
+                            <div style="font-size: 20px; font-weight: 200; line-height: 25px;">{{ system.name }}</div>
+                            <div style="font-size: 14px; font-weight: 200">{{ system.description }}</div>
+                        </div>
+                        <div>
+                            <input type="number" min="0" max="1000" style="width: 50px; margin-right: 10px" name="systems[{{ system.identifier }}]" value="{{ system.threshold }}">
+                        </div>
                     </div>
-                    <div>
-                        <input type="number" min="0" max="1000" style="width: 50px; margin-right: 10px" name="systems[{{ system.identifier }}]" value="{{ system.threshold }}">
-                    </div>
-                </div>
-                <div style="clear: both"></div>
+                    <div style="clear: both"></div>
+                {% endif %}
             {% endfor %}
         </div>
 

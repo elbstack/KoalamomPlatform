@@ -96,7 +96,7 @@ class Project implements \JsonSerializable
      * @var Tool[]
      *
      * @ORM\OneToMany(targetEntity="Tool", mappedBy="project")
-     * @ORM\OrderBy({"identifier" = "ASC"})
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     private $tools;
 
