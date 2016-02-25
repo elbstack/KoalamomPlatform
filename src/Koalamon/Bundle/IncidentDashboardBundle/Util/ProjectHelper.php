@@ -34,6 +34,8 @@ class ProjectHelper
         $event->setUrl($rawEvent->getUrl());
         $event->setValue($rawEvent->getValue());
 
+        $event = self::translate($event, $doctrineManager);
+
         $system = $doctrineManager->getRepository('KoalamonIncidentDashboardBundle:System')->findOneBy(['project' => $project, 'identifier' => $rawEvent->getSystem()]);
         if(is_null($system)) {
             $system = new System();
@@ -60,9 +62,7 @@ class ProjectHelper
 
         $event->setEventIdentifier($identifier);
 
-        $translatedEvent = self::translate($event, $doctrineManager);
-
-        self::addEvent($router, $doctrineManager, $translatedEvent, $eventDispatcher);
+        self::addEvent($router, $doctrineManager, $event, $eventDispatcher);
     }
 
     static public function addEvent(Router $router, EntityManager $doctrineManager, Event $event, EventDispatcherInterface $eventDispatcher)
