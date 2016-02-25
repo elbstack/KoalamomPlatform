@@ -34,19 +34,6 @@ class ProjectHelper
         $event->setUrl($rawEvent->getUrl());
         $event->setValue($rawEvent->getValue());
 
-        $event = self::translate($event, $doctrineManager);
-
-        $system = $doctrineManager->getRepository('KoalamonIncidentDashboardBundle:System')->findOneBy(['project' => $project, 'identifier' => $rawEvent->getSystem()]);
-        if(is_null($system)) {
-            $system = new System();
-            $system->setIdentifier($rawEvent->getSystem());
-            $system->setName($rawEvent->getSystem());
-            $system->setProject($project);
-
-            $doctrineManager->persist($system);
-            $doctrineManager->flush();
-        }
-
         $identifier = $doctrineManager->getRepository('KoalamonIncidentDashboardBundle:EventIdentifier')
             ->findOneBy(array('project' => $project, 'identifier' => $rawEvent->getIdentifier()));
 
@@ -58,9 +45,23 @@ class ProjectHelper
             $doctrineManager->flush();
         }
 
-        $identifier->setSystem($system);
-
         $event->setEventIdentifier($identifier);
+
+        $event = self::translate($event, $doctrineManager);
+
+        $system = $doctrineManager->getRepository('KoalamonIncidentDashboardBundle:System')->findOneBy(['project' => $project, 'identifier' => $event->getSystem()]);
+
+        if(is_null($system)) {
+            $system = new System();
+            $system->setIdentifier($rawEvent->getSystem());
+            $system->setName($rawEvent->getSystem());
+            $system->setProject($project);
+
+            $doctrineManager->persist($system);
+            $doctrineManager->flush();
+        }
+
+        $identifier->setSystem($system);
 
         self::addEvent($router, $doctrineManager, $event, $eventDispatcher);
     }
