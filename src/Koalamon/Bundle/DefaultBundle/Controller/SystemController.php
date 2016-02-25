@@ -100,7 +100,7 @@ class SystemController extends ProjectAwareController
         }
 
         // collected systems
-        $collections = $this->getDoctrine()->getRepository('KoalamonIntegrationMissingRequestBundle:Collection')->findBy(['project' => $system->getProject()]);
+        $collections = $this->getDoctrine()->getRepository('LeanKoalaIntegrationMissingRequestBundle:Collection')->findBy(['project' => $system->getProject()]);
         foreach ($collections as $collection) {
             $collection->removeSystem($system);
             $em->persist($collection);

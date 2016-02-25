@@ -28,6 +28,8 @@ class ScreenshotCommand extends ContainerAwareCommand
 
     private function createScreenshots($systems, OutputInterface $output)
     {
+        $em = $this->getContainer()->get('doctrine')->getManager();
+
         $webDir = $this->getContainer()->getParameter('assetic.write_to');
         $imageDir = $webDir . self::IMAGE_DIR;
 
