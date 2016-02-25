@@ -99,13 +99,23 @@ class SystemController extends ProjectAwareController
             $em->remove($integrationSystem);
         }
 
-        // collected systems
-        $collections = $this->getDoctrine()->getRepository('LeanKoalaIntegrationMissingRequestBundle:Collection')->findBy(['project' => $system->getProject()]);
-        foreach ($collections as $collection) {
-            $collection->removeSystem($system);
-            $em->persist($collection);
-            $em->flush();
+        // remove missing request collections
+        try {
+            $collections = $this->getDoctrine()->getRepository('LeanKoalaIntegrationMissingRequestBundle:Collection')->findBy(['project' => $system->getProject()]);
+            foreach ($collections as $collection) {
+                $collection->removeSystem($system);
+                $em->persist($collection);
+            }
+        } catch (\Exception $e) {
+
         }
+
+        // remove eventIdentifiers
+        $eventIdentifiers = $this->getDoctrine()->getRepository('KoalamonIncidentDashboardBundle:EventIdentifier')->findBy(['system' => $system]);
+        foreach ($eventIdentifiers as $eventIdentifier) {
+            $em->remove($eventIdentifier);
+        }
+        $em->flush();
 
         $deletedIds[] = $system->getId();
 
