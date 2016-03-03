@@ -31,7 +31,7 @@
 
             optionKey = elementName.replace(/\[/g, '').replace(/\]/g, '');
 
-            if (!(0 in  options[optionKey])) {
+            if (optionKey == undefined || !(0 in  options[optionKey])) {
                 return
             } else {
                 currentOptions = options[optionKey][0];
@@ -51,9 +51,6 @@
                         label = multiOptionDiv.find("label[for='" + $(this).attr('id') + "']").html();
                         name = $(this).attr('name');
                         inputName = elementName + '[' + optionName + '][' + prop + '][' + name + ']';
-
-                        console.log('found, ' + name + ', ', label);
-                        console.log(optionValues[name]);
 
                         newHiddenInput = '<input type="hidden" name="' + inputName + '" value="' + optionValues[name] + '">';
                         newListElement = '<div class="label">' + label + '</div><div class="value">' + optionValues[name] + '</div>';
