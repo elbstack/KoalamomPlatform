@@ -57,7 +57,14 @@
                         {% else %}
                             {% set options = checkedSystems[system.id].options %}
                         {% endif %}
-                        {% include optionsTemplate with { 'system': system, 'options': options, 'elementName': 'systems[' ~ system.id ~ '][options]' } %}
+
+                        {% set elementName = 'systems[' ~ system.id ~ '][options]' %}
+
+                        <script>
+                            options['{{ elementName | replace({'[': '', ']': ''}) }}'] = eval('[{{ options | json_encode | raw }}]');
+                        </script>
+
+                        {% include optionsTemplate with { 'system': system, 'options': options, 'elementName': elementName } %}
                     </td>
                 </tr>
             {% endif %}
@@ -85,6 +92,11 @@
                                 {% else %}
                                     {% set options = checkedSystems[subsystem.id].options %}
                                 {% endif %}
+
+                                <script>
+                                    options['{{ elementName | replace({'[': '', ']': ''}) }}'] = eval('[{{ options | json_encode | raw }}]');
+                                </script>
+
                                 {% include optionsTemplate with { 'system': subsystem, 'options': options, 'elementName': 'systems[' ~ subsystem.id ~ '][options]' } %}
                             </td>
                         </tr>

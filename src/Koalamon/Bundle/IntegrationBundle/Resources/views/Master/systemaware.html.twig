@@ -1,0 +1,199 @@
+{% extends '@KoalamonDefault/Default/master/admin.html.twig' %}
+
+{% block admin %}
+
+    <script>
+        var options = new Array;
+
+        $(function () {
+            multis = $('.multi-option');
+            multis.each(function (index) {
+                initOptions($(this));
+                $(this).html($(this).html() + '<button onclick="addOption(this);return false;">add option</button>');
+            });
+        });
+
+        function initOptions(multiOptionDiv, optionKey) {
+            elementName = multiOptionDiv.attr("data-element");
+
+            if (elementName == undefined) {
+                console.error('No data-element attribute was set. The div with multi-option class must provide the option prefix.');
+                return;
+            }
+
+            optionName = multiOptionDiv.attr("data-option");
+            inputs = multiOptionDiv.find('input[type!="hidden"]');
+
+            if (optionName == undefined) {
+                console.error('No data-option attribute set for multi-option div. This value is needed if you have a multi input field option.');
+                return;
+            }
+
+            optionKey = elementName.replace(/\[/g, '').replace(/\]/g, '');
+            currentOptions = options[optionKey][0];
+
+            inputs = multiOptionDiv.find('input[type!="hidden"]');
+
+            var htmlContent = "";
+
+            if (currentOptions[optionName]) {
+                for (var prop in currentOptions[optionName]) {
+
+                    optionValues = currentOptions[optionName][prop];
+                    htmlContent = '<div id="' + prop + '">';
+
+                    inputs.each(function (index) {
+                        label = multiOptionDiv.find("label[for='" + $(this).attr('id') + "']").html();
+                        name = $(this).attr('name');
+                        inputName = elementName + '[' + optionName + '][' + prop + '][' + name + ']';
+
+                        console.log('found, ' + name + ', ', label);
+                        console.log(optionValues[name]);
+
+                        newHiddenInput = '<input type="hidden" name="' + inputName + '" value="' + optionValues[name] + '">';
+                        newListElement = '<div class="label">' + label + '</div><div class="value">' + optionValues[name] + '</div>';
+
+                        htmlContent = htmlContent + newHiddenInput + newListElement;
+
+                        // (currentOptions[optionName])
+                    });
+                    removeButton = '<div><a onclick="$(this.parentNode.parentNode).remove(); return false;" href="">remove</a></div>';
+                    htmlContent = htmlContent + removeButton + "</div>";
+
+                    multiOptionDiv.html(htmlContent + multiOptionDiv.html());
+                }
+            }
+        }
+
+        function addOption(button) {
+            var multiOptionDiv = $(button.parentNode);
+
+            optionName = multiOptionDiv.attr("data-option");
+            elementName = multiOptionDiv.attr("data-element");
+
+            inputs = multiOptionDiv.find('input[type!="hidden"]');
+
+            elementId = Math.floor((Math.random() * 100000000) + 1);
+
+            htmlElement = '<div>';
+
+            inputs.each(function (index) {
+                value = $(this).val();
+                label = multiOptionDiv.find("label[for='" + $(this).attr('id') + "']").html();
+                name = $(this).attr('name');
+
+                inputName = elementName + '[' + optionName + '][' + elementId + '][' + name + ']';
+
+                newHiddenInput = '<input type="hidden" name="' + inputName + '" value="' + value + '">';
+                newListElement = '<div class="label">' + label + '</div><div class="value">' + value + '</div>';
+
+                htmlElement = htmlElement + newHiddenInput + newListElement;
+                // multiOptionDiv.html('<div>' + newHiddenInput + newListElement + removeButton + '</div>' + multiOptionDiv.html());
+            });
+            removeButton = '<div><a onclick="$(this.parentNode.parentNode).remove(); return false;" href="">remove</a></div>';
+            multiOptionDiv.html(htmlElement + removeButton + '</div>' + multiOptionDiv.html());
+
+        }
+
+        function storeIntegration(formId) {
+            var url = $("#" + formId).attr('action');
+            $.post(url, $("#" + formId).serialize(), function (data) {
+                if (data['status'] == 'failure') {
+                    toastr.warning(data['message']);
+                } else {
+                    toastr.success(data['message']);
+                    $('#id' + data['elementId']).val(data['id']);
+                }
+            });
+        }
+
+        options['options'] = eval('[{{ config.options | json_encode | raw }}]');
+
+    </script>
+
+    <style>
+        #integration .subContent {
+            margin-left: 20px;
+        }
+
+        #integration .subContent a {
+            border-bottom: 1px solid #555555;
+        }
+
+        #main #integration h2 {
+            font-weight: 200;
+            text-transform: none;
+            border-top: 1px solid #eee;
+            margin-top: 50px;
+            padding-top: 20px;
+        }
+
+        #main #integration h3 {
+            font-weight: 200;
+            text-transform: none;
+            margin-top: 50px;
+            padding-top: 20px;
+        }
+
+        .multi-option .label {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .multi-option .value {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .options input {
+            margin-right: 10px;
+        }
+
+        .multi-option label {
+            margin-right: 20px;
+        }
+
+        #main #integration .options h3 {
+            margin-top: 0;
+            margin-bottom: 0;
+
+        }
+    </style>
+
+    <h1>{% block integration_name %}The integration name.{% endblock %}</h1>
+
+    <div id="integration" style="width: 780px;">
+
+        {% block integration_description %}
+            The integration descrption. Please overwrite the integration_description block.
+        {% endblock %}
+
+        <form id="integration_admin_form" style="padding-top: 20px" action="{{ path('leankoala_integration_site_info_store', {'project': project.identifier}) }}">
+
+            <input type="radio" onchange="$('.configOptions').toggle();" name="status" value="all" {% if config.status == 'all' %}checked="checked{% endif %}"> Scan all Systems <br>
+
+            <div style="clear:both"></div>
+
+            <input type="radio" onchange="$('.configOptions').toggle();" name="status" value="selected" {% if config.status != 'all' %}checked="checked{% endif %}"> Scan selected Systems only
+
+            {% if optionsTemplate %}
+                <div class="configOptions" style="margin-left: 25px; margin-top: 10px; margin-bottom: 10px; {% if config.status != 'all' %}display:none{% endif %}">
+                    <h2>Options for all Systems</h2>
+
+                    <p>The options you select in this paragraph will be applied to all systems.</p>
+
+                    {% include optionsTemplate with { 'system': config, 'options': config.options, 'elementName': 'options' } %}
+                </div>
+            {% endif %}
+
+            <div class="configOptions" style="{% if config.status == 'all' %}display:none{% endif %}">
+                {% include 'KoalamonIntegrationBundle:Partials:systems.check.html.twig' with {'systems': systems, 'checkedSystems': integratedSystems, 'optionsTemplate': optionsTemplate} only %}
+            </div>
+
+            <div style="clear:both"></div>
+
+            <button onclick="storeIntegration('integration_admin_form'); return false;" style="margin-top: 30px">Store Configuration</button>
+        </form>
+
+    </div>
+{% endblock %}
