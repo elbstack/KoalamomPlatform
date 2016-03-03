@@ -31,7 +31,7 @@
 
             optionKey = elementName.replace(/\[/g, '').replace(/\]/g, '');
 
-            if (optionKey == undefined || !(0 in  options[optionKey])) {
+            if (!(optionKey in options) || !(0 in  options[optionKey])) {
                 return
             } else {
                 currentOptions = options[optionKey][0];
