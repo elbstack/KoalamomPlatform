@@ -37,7 +37,9 @@ class FixBrokenEventIdentifierCommand extends ContainerAwareCommand
             foreach ($eventIdentifiers as $eventIdentifier) {
                 $event = $eventIdentifier->getLastEvent();
                 try {
-                    $event->getStatus();
+                    if (!is_null($event)) {
+                        $event->getStatus();
+                    }
                 } catch (\Exception $e) {
                     $this->getContainer()
                         ->get('doctrine')
