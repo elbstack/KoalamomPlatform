@@ -93,11 +93,13 @@
                                     {% set options = checkedSystems[subsystem.id].options %}
                                 {% endif %}
 
+                                {% set elementName = 'systems[' ~ subsystem.id ~ '][options]' %}
+
                                 <script>
                                     options['{{ elementName | replace({'[': '', ']': ''}) }}'] = eval('[{{ options | json_encode | raw }}]');
                                 </script>
 
-                                {% include optionsTemplate with { 'system': subsystem, 'options': options, 'elementName': 'systems[' ~ subsystem.id ~ '][options]' } %}
+                                {% include optionsTemplate with { 'system': subsystem, 'options': options, 'elementName': elementName } %}
                             </td>
                         </tr>
                     {% endif %}

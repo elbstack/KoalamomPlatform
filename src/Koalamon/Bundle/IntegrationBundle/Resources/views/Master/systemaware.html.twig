@@ -32,7 +32,7 @@
             optionKey = elementName.replace(/\[/g, '').replace(/\]/g, '');
 
             if (!(optionKey in options) || !(0 in  options[optionKey])) {
-                return
+                return;
             } else {
                 currentOptions = options[optionKey][0];
             }
