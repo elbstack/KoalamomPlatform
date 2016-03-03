@@ -30,7 +30,12 @@
             }
 
             optionKey = elementName.replace(/\[/g, '').replace(/\]/g, '');
-            currentOptions = options[optionKey][0];
+
+            if (!(0 in  options[optionKey])) {
+                return
+            } else {
+                currentOptions = options[optionKey][0];
+            }
 
             inputs = multiOptionDiv.find('input[type!="hidden"]');
 
