@@ -170,7 +170,7 @@
             The integration descrption. Please overwrite the integration_description block.
         {% endblock %}
 
-        <form id="integration_admin_form" style="padding-top: 20px" action="{{ path('leankoala_integration_site_info_store', {'project': project.identifier}) }}">
+        <form id="integration_admin_form" style="padding-top: 20px" action="{{ storePath }}">
 
             <input type="radio" onchange="$('.configOptions').toggle();" name="status" value="all" {% if config.status == 'all' %}checked="checked{% endif %}"> Scan all Systems <br>
 
