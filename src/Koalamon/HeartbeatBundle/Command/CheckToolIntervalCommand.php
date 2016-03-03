@@ -65,14 +65,22 @@ class CheckToolIntervalCommand extends ContainerAwareCommand implements CheckToo
                 $newEvent->setType('koalamon_intervalcheck');
                 $newEvent->setUnique(false);
 
-                if ($event->getCreated() < $lastEventLimit) {
+                try {
+                    $created = $event->getCreated();
+                } catch (\Exception $e) {
+                    $output->writeln("<error>" . $e->getMessage() . "</error>");
+
+                    $created = new \DateTime();
+                    $created->sub(new \DateInterval("P30D"));
+                }
+                if ($created < $lastEventLimit) {
                     $newEvent->setStatus(Event::STATUS_FAILURE);
 
-                    $message = "The tool '" . $tool->getName() . "' did not send any events since " . $event->getCreated()->format("d.m.Y H:i:m") . ".";
+                    $message = "The tool '" . $tool->getName() . "' did not send any events since " . $created->format("d.m.Y H:i:m") . ".";
                     $newEvent->setMessage($message);
 
                     $output->writeln(
-                        "project_id: " . $event->getEventIdentifier()->getProject()->getId() . " -- " . $message
+                        "project_id: " . $tool->getProject()->getId() . " -- " . $message
                     );
                 } else {
                     $newEvent->setStatus(Event::STATUS_SUCCESS);

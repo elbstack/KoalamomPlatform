@@ -106,6 +106,7 @@ class ProjectHelper
         }
 
         $event->getEventIdentifier()->setLastEvent($event);
+        $event->getEventIdentifier()->setCurrentState($event->getStatus());
 
         $event->getEventIdentifier()->incEventCount();
         if ($event->getStatus() == Event::STATUS_FAILURE) {

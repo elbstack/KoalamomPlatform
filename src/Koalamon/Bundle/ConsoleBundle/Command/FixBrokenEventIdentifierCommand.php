@@ -11,47 +11,47 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FixIncidentCountCommand extends ContainerAwareCommand
+class FixBrokenEventIdentifierCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('koalamon:project:incidentcount:fix')
-            ->setDescription('Resets the incident counts.');
+            ->setName('koalamon:project:eventidentifier:fix')
+            ->setDescription('Repairs the event identifiers.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("\n  <info>Fixing incident count ...</info>\n");
+        $output->writeln("\n  <info>Fixing event identifiers ...</info>\n");
 
         $projects = $this->getContainer()
             ->get('doctrine')
             ->getRepository('KoalamonIncidentDashboardBundle:Project')
             ->findAll();
 
-        $fixedProjetcs = 0;
+        $removedIdentifiers = 0;
 
         foreach ($projects as $project) {
             $eventIdentifiers = $project->getEventIdentifiers();
-            $incidentCount = 0;
+
             foreach ($eventIdentifiers as $eventIdentifier) {
-                if (!$eventIdentifier->isKnownIssue()
-                    && $eventIdentifier->getCurrentState() == Event::STATUS_FAILURE
-                ) {
-                    $incidentCount++;
+                $event = $eventIdentifier->getLastEvent();
+                try {
+                    $event->getStatus();
+                } catch (\Exception $e) {
+                    $this->getContainer()
+                        ->get('doctrine')
+                        ->getManager()
+                        ->remove($eventIdentifier);
+                    $removedIdentifiers++;
                 }
             }
-
-            if ($project->getOpenIncidentCount() != $incidentCount) {
-                $project->setOpenIncidentCount($incidentCount);
-                $fixedProjetcs++;
-                $em = $this->getContainer()->get('doctrine')->getManager();
-                $em->persist($project);
-                $em->flush();
-                $output->writeln('   - Corrected count for project ' . $project->getName()) . '.';
-            }
+            $this->getContainer()
+                ->get('doctrine')
+                ->getManager()
+                ->flush();
         }
 
-        $output->writeln("\n  <info>Done</info> " . $fixedProjetcs . " project(s) corrected.\n");
+        $output->writeln("\n  <info>Done</info> " . $removedIdentifiers . " identifiers(s) deleted.\n");
     }
 }

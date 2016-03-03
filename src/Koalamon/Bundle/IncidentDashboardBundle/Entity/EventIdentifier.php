@@ -76,7 +76,6 @@ class EventIdentifier
      **/
     private $project;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="System", inversedBy="eventIdentifiers")
      * @ORM\JoinColumn(name="system_id", referencedColumnName="id")
@@ -93,6 +92,13 @@ class EventIdentifier
      * @ORM\OneToMany(targetEntity="Event", mappedBy="eventIdentifier")
      */
     private $events;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(type="string")
+     */
+    private $currentState = Event::STATUS_SUCCESS;
 
     /**
      * Get id
@@ -272,6 +278,22 @@ class EventIdentifier
     public function setSystem($system)
     {
         $this->system = $system;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentState()
+    {
+        return $this->currentState;
+    }
+
+    /**
+     * @param string $currentState
+     */
+    public function setCurrentState($currentState)
+    {
+        $this->currentState = $currentState;
     }
 
     /**
