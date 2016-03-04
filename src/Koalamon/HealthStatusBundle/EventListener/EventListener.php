@@ -62,10 +62,15 @@ class EventListener
         }
 
         $system = $currentEvent->getEventIdentifier()->getSystem();
+        if (is_null($system)) {
+            return;
+        }
+
         $tool = $currentEvent->getEventIdentifier()->getTool();
 
         $status = Event::STATUS_SUCCESS;
         $message = '';
+
 
         if ($system->getThreshold() == 0 || $currentEvent->getStatus() == Event::STATUS_SUCCESS) {
             $healthStatus = max(0, $system->getHealthStatus() - $tool->getScore());
