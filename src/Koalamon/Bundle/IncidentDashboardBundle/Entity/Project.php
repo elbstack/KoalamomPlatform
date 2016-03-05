@@ -3,7 +3,8 @@
 namespace Koalamon\Bundle\IncidentDashboardBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Koalamon\Bundle\IncidentDashboardBundle\Validator\Constraints as KoalamonAssert;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Event
@@ -25,12 +26,26 @@ class Project implements \JsonSerializable
     /**
      * @var string
      *
+     * @KoalamonAssert\IsIdentifier
+     * @Assert\Length(
+     *      min = "3",
+     *      max = "10",
+     *      minMessage = "The identifier must be at least {{ limit }} characters length",
+     *      maxMessage = "The identifier cannot be longer than {{ limit }} characters length"
+     * )
+     *
      * @ORM\Column(name="identifier", type="string", length=255)
      */
     private $identifier;
 
     /**
      * @var string
+     * @Assert\Length(
+     *      min = "3",
+     *      max = "100",
+     *      minMessage = "The name must be at least {{ limit }} characters length",
+     *      maxMessage = "The name cannot be longer than {{ limit }} characters length"
+     * )
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
