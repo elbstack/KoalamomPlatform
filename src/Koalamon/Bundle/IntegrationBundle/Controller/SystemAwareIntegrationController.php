@@ -79,15 +79,11 @@ abstract class SystemAwareIntegrationController extends ProjectAwareController
 
         $config->setStatus($status);
 
-        var_dump($request->get('saas'));
-
         if ($request->get('saas') == 'false') {
             $config->setUseSaaS(false);
         } else {
             $config->setUseSaaS(true);
         }
-
-        var_dump($config->getUseSaaS());
 
         if ($request->get('options')) {
             $config->setOptions($request->get('options'));
