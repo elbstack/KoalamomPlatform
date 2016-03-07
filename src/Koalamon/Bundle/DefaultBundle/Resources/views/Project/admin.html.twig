@@ -6,7 +6,7 @@
         <div class="box-element first">
             <div class="box-element-header">Project Options</div>
             <div class="box-element-content">
-                <form method="post" action="{{ path('koalamon_default_project_admin_store', {'project': project.identifier }) }}" class="confirm" data-message="Are you sure?">
+                <form method="post" action="{{ path('koalamon_default_project_admin_store', {'project': project.identifier }) }}" class="confirm" data-message="Are you sure you want to store the project options?">
                     <input name="options[isPublic]" type="checkbox" {% if project.public %}checked=checked{% endif %} id="options_isPublic">
                     <span><strong>Public Project</strong> - Check this option if you want to grand read access to public.</span>
                     <br><br>
@@ -15,12 +15,5 @@
             </div>
         </div>
     {% endif %}
-
-    <script>
-
-        var modalHandler = new ModalHandler();
-        modalHandler.initConfirm('.confirm');
-
-    </script>
 
 {% endblock %}

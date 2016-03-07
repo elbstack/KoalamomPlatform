@@ -33,7 +33,6 @@ class BundleKernel
 
 
             new NotificationBundle\KoalamonNotificationBundle(),
-
         ];
 
         return $bundles;

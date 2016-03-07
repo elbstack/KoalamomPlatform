@@ -18,7 +18,7 @@
                             </li>
 
                             <li class="submenu">
-                                <a href="{{ path("bauer_incident_dashboard_core_close", { "project": project.identifier, "event": event.id }) }}">
+                                <a class="confirm" data-message="Close this incident?" href="{{ path("bauer_incident_dashboard_core_close", { "project": project.identifier, "event": event.id }) }}">
                                     close incident
                                 </a>
                             </li>

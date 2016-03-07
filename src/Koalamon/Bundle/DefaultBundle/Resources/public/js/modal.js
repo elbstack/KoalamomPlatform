@@ -1,53 +1,69 @@
-function confirmDialog(title, message, success) {
-    var confirmdialog = $('<div></div>').appendTo('body')
-        .html('<div><h6>' + message + '</h6></div>')
-        .dialog({
-            modal: true,
-            title: title,
-            zIndex: 10000,
-            autoOpen: false,
-            width: 'auto',
-            resizable: false,
-            buttons: {
-                Yes: function () {
-                    success();
-                    $(this).dialog("close");
-                },
-                No: function () {
-                    $(this).dialog("close");
-                }
-            },
-            close: function() {
-                $(this).remove();
-            }
-        });
-
-    return confirmdialog.dialog("open");
+function ModalHandler() {
 }
 
-function ModalHandler() {
+ModalHandler.prototype.showConfirmDialog = function (message, callback) {
+    $('#confirm').modal({
+        position: ["20%",],
+        overlayId: 'confirm-overlay',
+        containerId: 'confirm-container',
+        onShow: function (dialog) {
+            var modal = this;
 
+            $('.message', dialog.data[0]).append(message);
+
+            // if the user clicks "yes"
+            $('.yes', dialog.data[0]).click(function () {
+                // call the callback
+                if ($.isFunction(callback)) {
+                    callback.apply();
+                }
+                // close the dialog
+                modal.close(); // or $.modal.close();
+            });
+        }
+    });
 }
 
 ModalHandler.prototype.initConfirm = function (selector) {
 
     elements = $(selector);
 
+    var thisClass = this;
+
     elements.each(function () {
 
-        console.log($(this).attr('data-message'));
+            var element = this;
 
-        $(this).submit(function () {
+            if ($(this).attr('data-message') != undefined) {
+                var message = $(this).attr('data-message');
+            } else {
+                var message = "Are you sure?";
+            }
 
-            var form = this;
+            if ($(element).prop('nodeName') == 'FORM') {
+                $(element).submit(function () {
+                    thisClass.showConfirmDialog(message, function () {
+                        element.submit();
+                    });
+                });
+            } else if ($(this).prop('nodeName') == 'A') {
+                $(element).click(function () {
+                    href = $(element).attr('href');
+                    thisClass.showConfirmDialog(message, function () {
+                        location.href = href;
+                    });
+                    return false;
+                });
+            } else {
+                $(element).click(function (event) {
+                    thisClass.showConfirmDialog(message, function () {
 
-            confirmDialog('Confirm', 'Are you sure?', function () {
-                form.submit();
-            });
+                    });
+                    return false;
+                });
+            }
 
             return false;
-        });
-
-    });
-
+        }
+    );
 }
