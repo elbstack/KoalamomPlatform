@@ -2,15 +2,16 @@
 
 {% block admin %}
 
+    {% javascripts '@KoalamonIntegrationBundle/Resources/public/js/*' %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
     <script>
         var options = new Array;
 
         $(function () {
-            multis = $('.multi-option');
-            multis.each(function (index) {
-                initOptions($(this));
-                $(this).html($(this).html() + '<button onclick="addOption(this);return false;">add option</button>');
-            });
+            integrationForm = new IntegrationForm;
+            integrationForm.initMultiInputs($('.multi-option'));
         });
 
         function initOptions(multiOptionDiv, optionKey) {

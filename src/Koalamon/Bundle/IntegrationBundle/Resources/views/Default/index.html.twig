@@ -70,7 +70,7 @@
                 <li>
                     <a href="{{ integration.url }}">
                         <div class="logo">
-                        {% if integration.image %}<img src="{{ integration.image }}"><br/>{% endif %}
+                        {% if integration.image %}<img src="{{ asset(integration.image) }}"><br/>{% endif %}
                         </div>
                         <div class="name">{{ integration.name }}</div>
                         <p class="info">{{ integration.description }}</p>
