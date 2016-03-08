@@ -29,7 +29,7 @@
             {% set incidentFound = false %}
             {% for eventIdentifier in eventIndentifiers %}
                 {% if eventIdentifier.lastEvent.status == "failure" %}
-                    {% if not eventIdentifier.knownIssue %}
+                    {% if not eventIdentifier.knownIssue and not eventIdentifier.ignoredIssue %}
                         {% set incidentFound = true %}
                         {% include "@KoalamonIncidentDashboard/Default/partials/row.html.twig" with {"event": eventIdentifier.lastEvent } %}
                     {% endif %}
