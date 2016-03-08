@@ -45,6 +45,7 @@ ModalHandler.prototype.initConfirm = function (selector) {
                     thisClass.showConfirmDialog(message, function () {
                         element.submit();
                     });
+                    return false;
                 });
             } else if ($(this).prop('nodeName') == 'A') {
                 $(element).click(function () {
@@ -55,15 +56,24 @@ ModalHandler.prototype.initConfirm = function (selector) {
                     return false;
                 });
             } else {
-                $(element).click(function (event) {
-                    thisClass.showConfirmDialog(message, function () {
-
-                    });
-                    return false;
-                });
+                $(element).html('<span class="confirm-dialog-span" onclick="console.log(\'click\')">' + $(element).html() + '</span>');
             }
-
-            return false;
         }
     );
+
+    $(".confirm-dialog-span").on('click', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        span = this;
+
+        if ($(this.parentNode).attr('data-message') != undefined) {
+            var message = $(this.parentNode).attr('data-message');
+        } else {
+            var message = "Are you sure?";
+        }
+        thisClass.showConfirmDialog(message, function () {
+            $(span.parentNode).click();
+        });
+        return false;
+    });
 }

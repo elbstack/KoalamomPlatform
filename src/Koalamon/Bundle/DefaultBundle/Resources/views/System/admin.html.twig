@@ -49,8 +49,8 @@
 
             var cell4 = newRow.insertCell(4);
             storeButton = '<div class="button" style="margin-left: 0; width: auto; display: inline; margin-right: 5px" onclick="storeSystem(' + systemId + ')">store</div>';
-            deleteButtonMainSystem = '<div class="button" style="margin-left: 0; width: auto; display: inline; margin-right: 5px" onclick="deleteSystem(' + systemId + ')">delete</div>';
-            deleteButtonSubSystem = '<div class="button" style="margin-left: 0; width: auto; display: inline; margin-right: 5px" onclick="deleteSystem(' + systemId + ', true)">delete</div>';
+            deleteButtonMainSystem = '<div class="button confirm" style="margin-left: 0; width: auto; display: inline; margin-right: 5px" onclick="deleteSystem(' + systemId + ')">delete</div>';
+            deleteButtonSubSystem = '<div class="button confirm" style="margin-left: 0; width: auto; display: inline; margin-right: 5px" onclick="deleteSystem(' + systemId + ', true)">delete</div>';
             addSubSystemButton = '<div class="button" style="margin-left: 0; width: auto; display: inline; margin-right: 5px" onclick="addSubSystem(' + systemId + ')">add subsystem</div>';
 
             if (parent) {
@@ -99,7 +99,6 @@
                 $.post(url, {
                     'system_id': id
                 }).done(function (data) {
-                    console.log(data);
                     if (data['status'] == 'failure') {
                         toastr.warning(data['message']);
                     } else {
