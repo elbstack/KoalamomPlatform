@@ -56,7 +56,7 @@ ModalHandler.prototype.initConfirm = function (selector) {
                     return false;
                 });
             } else {
-                $(element).html('<span class="confirm-dialog-span" onclick="console.log(\'click\')">' + $(element).html() + '</span>');
+                $(element).html('<span class="confirm-dialog-span">' + $(element).html() + '</span>');
             }
         }
     );

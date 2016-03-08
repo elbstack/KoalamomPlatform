@@ -12,7 +12,7 @@
                     {% if app.user == project.owner %}
                         {% if not event.eventIdentifier.knownIssue and event.status == 'failure' %}
                             <li class="submenu">
-                                <a href="{{ path("koalamon_default_event_knownissue_mark", { "eventIdentifier": event.eventIdentifier.id }) }}">
+                                <a class="confirm" data-message="Mark this incident as known issue?" href="{{ path("koalamon_default_event_knownissue_mark", { "eventIdentifier": event.eventIdentifier.id }) }}">
                                     mark as known issue
                                 </a>
                             </li>
