@@ -167,7 +167,7 @@ abstract class SystemAwareIntegrationController extends ProjectAwareController
         return $response;
     }
 
-    protected function getActiveSystemsForProject(Project $project, $integrationIdentifier = null)
+    protected function getActiveSystemsForProject(Project $project, $integrationIdentifier = null, $useSaas = false)
     {
         if (is_null($integrationIdentifier)) {
             $integrationIdentifier = $this->getIntegrationIdentifier();
@@ -177,7 +177,7 @@ abstract class SystemAwareIntegrationController extends ProjectAwareController
 
         $configs = $this->getDoctrine()
             ->getRepository('KoalamonIntegrationBundle:IntegrationConfig')
-            ->findBy(['status' => IntegrationConfig::STATUS_ALL, 'integration' => $integrationIdentifier, 'useSaaS' => false, 'project' => $project]);
+            ->findBy(['status' => IntegrationConfig::STATUS_ALL, 'integration' => $integrationIdentifier, 'useSaaS' => $useSaas, 'project' => $project]);
 
         foreach ($configs as $config) {
             $systems = $config->getProject()->getSystems();
@@ -188,7 +188,7 @@ abstract class SystemAwareIntegrationController extends ProjectAwareController
 
         $configs = $this->getDoctrine()
             ->getRepository('KoalamonIntegrationBundle:IntegrationConfig')
-            ->findBy(['status' => IntegrationConfig::STATUS_SELECTED, 'integration' => $integrationIdentifier, 'useSaaS' => false, 'project' => $project]);
+            ->findBy(['status' => IntegrationConfig::STATUS_SELECTED, 'integration' => $integrationIdentifier, 'useSaaS' => $useSaas, 'project' => $project]);
 
         foreach ($configs as $config) {
             $integrationSystems = $this->getDoctrine()
