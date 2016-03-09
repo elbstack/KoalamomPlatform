@@ -22,11 +22,13 @@ class DefaultController extends ProjectAwareController
 
         $eventIdentifiers = $this->getDoctrine()
             ->getRepository('KoalamonIncidentDashboardBundle:EventIdentifier')
-            ->findBy(['system' => $system->getIdentifier(), 'tool' => $tool]);
+            ->findBy(['system' => $system, 'tool' => $tool]);
 
         return $this->render('KoalamonGeckoBoardBundle:Default:index.html.twig',
             [
-                'eventIdentifers' => $eventIdentifiers
+                'system' => $system,
+                'tool' => $tool,
+                'eventIdentifiers' => $eventIdentifiers
             ]);
     }
 }

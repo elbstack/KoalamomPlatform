@@ -20,10 +20,19 @@
 
         <input type="submit" value="filter">
 
-        {% if eventIdentfiers is defined %}
-            {% for eventIdentifier in eventIdentifiers %}
-                {{ eventIdentifer.identifier }}
-            {% endfor %}
+        {% if eventIdentifiers is defined %}
+            <div style="margin-top: 30px">
+                <div>System: {{ system.name }}</div>
+                <div> Tool: {{ tool.name }}</div>
+
+                <h3 style="margin-top: 50px">Matching Identifier</h3>
+                <div style="margin-top: 20px">
+                    {% for eventIdentifier in eventIdentifiers %}
+                        <div style="width: 500px; float: left;">{{ eventIdentifier.identifier }}</div>
+                        <div>URL data feeds: <a href="{{ path('koalamon_gecko_board_linechart', { 'eventIdentifier': eventIdentifier.id }) }}">line chart</a></div>
+                    {% endfor %}
+                </div>
+            </div>
         {% endif %}
 
     </form>
