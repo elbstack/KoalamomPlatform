@@ -39,19 +39,18 @@
 
     <div class="tool">{{ event.type }}</div>
 
-    <div class="option" style="float: right; text-align: right; width: 60px">
+    <div class="option" style="float: right; text-align: right; width: 80px">
         {% if not app.user is null and app.user.hasUserRole(project, constant('Koalamon\\Bundle\\IncidentDashboardBundle\\Entity\\UserRole::ROLE_COLLABORATOR')) %}
-            {% if event.status == "failure" and not event.eventIdentifier.knownIssue %}
-                <a href="{{ path("koalamon_default_event_knownissue_mark", { "eventIdentifier": event.eventIdentifier.id }) }}"><img src="/images/check.jpg" width="15" style="float: left"/></a>
-                <a href="{{ path("bauer_incident_dashboard_core_close", { "project": project.identifier, "event": event.id }) }}"><img src="/images/close.jpg" width="15" style="float: left"/></a>
+            {% if event.status == "failure" %}
+                {% set ignored = event.eventIdentifier.ignoredIssue %}
+                {% set known = event.eventIdentifier.knownIssue %}
+                <a href="{{ path(known ? "koalamon_default_event_knownissue_unmark" : "koalamon_default_event_knownissue_mark", { "eventIdentifier": event.eventIdentifier.id }) }}" title="{{ known ? "Unmark" : "Mark" }} as known issue"><img src="/images/check.jpg" width="15" style="float: left"/></a>
+                <a href="{{ path(ignored ? "koalamon_default_event_ignoredissue_unmark" : "koalamon_default_event_ignoredissue_mark", { "eventIdentifier": event.eventIdentifier.id }) }}" title="{{ ignored ? "Unmark" : "Mark" }} as ignored issue"><img src={{ ignored ? "/images/unignore.png" :"/images/ignore.png" }} width="15" style="float: left"/></a>
+                <a href="{{ path("bauer_incident_dashboard_core_close", { "project": project.identifier, "event": event.id }) }}" title="Close issue"><img src="/images/close.jpg" width="15" style="float: left"/></a>
             {% endif %}
-            {% if event.status == "failure" and event.eventIdentifier.knownIssue %}
-                <a href="{{ path("koalamon_default_event_knownissue_unmark", { "eventIdentifier": event.eventIdentifier.id }) }}"><img src="/images/check.jpg" width="15" style="float: left"/></a>
-            {% endif %}
-
         {% endif %}
         {% if not event.unique %}
-            <a href="" onclick="drawChart('{{ event.id }}', 'stats-{{ event.id }}'); return false;"><img src="/images/stats.jpg" width="15" style="float: left"/></a>
+            <a href="" onclick="drawChart('{{ event.id }}', 'stats-{{ event.id }}'); return false;" title="Show issue statistics"><img src="/images/stats.jpg" width="15" style="float: left"/></a>
         {% endif %}
     </div>
 
