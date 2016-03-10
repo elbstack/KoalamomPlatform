@@ -31,8 +31,9 @@ class BundleKernel
             new Bundle\IntegrationBundle\KoalamonIntegrationBundle(),
             new Bundle\GeckoBoardBundle\KoalamonGeckoBoardBundle(),
 
-
             new NotificationBundle\KoalamonNotificationBundle(),
+
+            // new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
         ];
 
         return $bundles;
