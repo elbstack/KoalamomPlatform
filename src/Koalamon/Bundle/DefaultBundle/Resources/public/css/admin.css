@@ -1,0 +1,61 @@
+#menu-project-admin {
+    height: 100px;
+}
+
+#menu-project-admin ul {
+    list-style: none;
+    padding: 0;
+    padding-bottom: 20px;
+
+}
+
+#menu-project-admin ul li {
+    margin-right: 10px;
+    padding: 5px 10px 5px 10px;
+    float: left;
+    background-color: #eaeaea;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+#menu-project-admin .current a {
+    color: white;
+}
+
+#menu-project-admin .current {
+    background-color: #3498db;
+}
+
+#menu-project-admin .current_ancestor {
+    background-color: #3498db;
+}
+
+#menu-project-admin .menu_level_1 ul li {
+    float: left;
+    margin-right: 10px;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 5px;
+    color: white;
+    background-color: #eaeaea;
+}
+
+#menu-project-admin .menu_level_1 {
+    display: none;
+}
+
+#menu-project-admin .current .menu_level_1 {
+    display: block;
+    position: absolute;
+    margin-top: 15px;
+}
+
+#menu-project-admin .current_ancestor .menu_level_1  {
+    display: block;
+    position: absolute;
+    margin-top: 15px;
+}
+
+#menu-project-admin .menu_level_1 li.current {
+    background-color: #7f8c8d;
+}

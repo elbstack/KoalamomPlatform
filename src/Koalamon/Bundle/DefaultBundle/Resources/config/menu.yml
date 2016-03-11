@@ -1,0 +1,34 @@
+menu:
+
+  koalamon_project_admin:
+
+    project_main:
+      name: Project
+      route: koalamon_default_project_admin
+      projectAware: true
+
+    collaborators_main:
+      name: Collaborators
+      route: koalamon_default_user_admin
+      projectAware: true
+
+    systems_main:
+      name: Systems
+      route: koalamon_default_system_admin
+      projectAware: true
+
+    systems_sub_default:
+      parent: systems_main
+      name: Default
+      route: koalamon_default_system_admin
+      projectAware: true
+
+    tools_main:
+      name: Tools
+      route: koalamon_default_tool_admin
+      projectAware: true
+
+    translation_main:
+      name: Translations
+      route: koalamon_default_admin_translation_home
+      projectAware: true

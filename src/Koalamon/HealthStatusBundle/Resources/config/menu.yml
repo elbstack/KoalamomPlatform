@@ -1,0 +1,9 @@
+menu:
+
+  koalamon_project_admin:
+
+    systems_sub_health_status:
+      parent: systems_main
+      name: Health Status
+      route: koalamon_health_status_homepage
+      projectAware: true

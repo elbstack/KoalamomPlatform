@@ -2,7 +2,9 @@
 
 {% block content %}
 
-    {{ render(controller('KoalamonDefaultBundle:Admin:renderMenu', { 'project': project, 'currentUri': app.request.uri })) }}
+    <div id="menu-project-admin">
+        {{ koalamon_menu_render('koalamon_project_admin') }}
+    </div>
 
     <div id="admin-content">
         {% block admin %}

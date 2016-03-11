@@ -33,7 +33,9 @@ class BundleKernel
 
             new NotificationBundle\KoalamonNotificationBundle(),
 
-            // new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new MenuBundle\KoalamonMenuBundle(),
+
+            new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
         ];
 
         return $bundles;

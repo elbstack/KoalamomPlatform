@@ -1,0 +1,18 @@
+services:
+
+    koalamon.menu.twig_extension:
+        class: Koalamon\MenuBundle\Twig\KoalamonMenuExtension
+        arguments: [ @koalamon.menu_container ]
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    koalamon.menu_container:
+        class: Koalamon\MenuBundle\Menu\MenuContainer
+        arguments: ["@knp_menu.factory", '@service_container']
+
+    koalamon.menubundle.init:
+        class: Koalamon\MenuBundle\EventListener\KernelRequestListener
+        arguments: [ @koalamon.menu_container, @service_container ]
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request' }
