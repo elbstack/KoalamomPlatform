@@ -68,3 +68,7 @@ function countDown() {
 function setFilter(elementType) {
     $("#" + elementType + "List").toggle();
 }
+
+$(function () {
+    $(".status_count_label").append('<div class="status_count">' + project_incident_count + '</div>');
+});

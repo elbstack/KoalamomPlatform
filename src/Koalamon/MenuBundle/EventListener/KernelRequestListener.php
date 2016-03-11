@@ -21,7 +21,9 @@ class KernelRequestListener
 
     private function getConfig($filename)
     {
-        return Yaml::parse(file_get_contents($filename))['menu'];
+        $config = Yaml::parse(file_get_contents($filename))['menu'];
+
+        return $config;
     }
 
     public function onKernelRequest()
@@ -52,11 +54,23 @@ class KernelRequestListener
                         } else {
                             $parentIdentifier = null;
                         }
+
+                        $attributes = [];
+                        if (array_key_exists('attributes', $menuItem)) {
+                            $attributes = $menuItem['attributes'];
+                        }
+
+                        $routeParameters = [];
+                        if (array_key_exists('routeParameters', $menuItem)) {
+                            $routeParameters = $menuItem['routeParameters'];
+                        }
+
                         $this->menuContainer->addItem(
                             $menuName,
                             $menuItemIdentifier,
                             $menuItem['name'],
-                            ['route' => $menuItem['route']],
+                            ['route' => $menuItem['route'], 'routeParameters' => $routeParameters],
+                            $attributes,
                             $projectAware,
                             $parentIdentifier);
                     }

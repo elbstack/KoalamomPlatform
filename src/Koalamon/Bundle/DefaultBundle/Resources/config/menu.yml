@@ -1,5 +1,32 @@
 menu:
 
+  koalamon_project_main:
+
+    status:
+      name: Status
+      route: bauer_incident_dashboard_core_homepage
+      projectAware: true
+      attributes:
+        class: status_count_label
+
+    twentyfour:
+      name: History
+      route: bauer_incident_dashboard_core_past
+      routeParameters:
+        intervalInHours: 24
+      projectAware: true
+
+    systems:
+      name: Systems
+      route: bauer_incident_dashboard_core_systems
+      projectAware: true
+
+    tools:
+      name: Tools
+      route: bauer_incident_dashboard_core_tools
+      projectAware: true
+
+
   koalamon_project_admin:
 
     project_main:

@@ -42,7 +42,7 @@ class MenuContainer
         return $this->currentProject;
     }
 
-    public function addItem($menuName, $elementIdentifier, $elementName, array $elementOptions = array(), $projectAware = true, $parentIdentifier = null)
+    public function addItem($menuName, $elementIdentifier, $elementName, array $elementOptions = array(), array $attributes = array(), $projectAware = true, $parentIdentifier = null)
     {
         if ($projectAware
             && ((!array_key_exists('routeParameters', $elementOptions))
@@ -67,11 +67,12 @@ class MenuContainer
         $elementOptions['label'] = $elementName;
 
         if ($parentIdentifier) {
-            $this->menues[$menuName][$parentIdentifier]->addChild($elementIdentifier, $elementOptions);
+            $this->menues[$menuName][$parentIdentifier]->addChild($elementIdentifier, $elementOptions)->setAttributes($attributes);
         } else {
-            $menu->addChild($elementIdentifier, $elementOptions);
+            $menu->addChild($elementIdentifier, $elementOptions)->setAttributes($attributes);
             $this->menues[$menuName] = $menu;
         }
+
     }
 
     /**
