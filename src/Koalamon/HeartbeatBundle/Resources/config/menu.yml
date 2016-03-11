@@ -1,0 +1,9 @@
+menu:
+
+  koalamon_project_admin:
+
+    tools_sub_heart_default:
+      parent: tools_main
+      name: Heart Beat
+      route: koalamon_heartbeat_homepage
+      projectAware: true

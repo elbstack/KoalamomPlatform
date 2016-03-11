@@ -28,6 +28,12 @@ menu:
       route: koalamon_default_tool_admin
       projectAware: true
 
+    tools_sub_default:
+      parent: tools_main
+      name: Tools
+      route: koalamon_default_tool_admin
+      projectAware: true
+
     translation_main:
       name: Translations
       route: koalamon_default_admin_translation_home
