@@ -1,3 +1,7 @@
+koalamon_user:
+    resource: "@KoalamonUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
 koalamon_health_status:
     resource: "@KoalamonHealthStatusBundle/Resources/config/routing.yml"
     prefix:   /
@@ -49,3 +53,33 @@ koalamon_webhook:
 koalamon_screenshot:
     resource: "@KoalamonScreenshotBundle/Resources/config/routing.yml"
     prefix:   /
+
+
+# 3rd party
+
+# HWIOAuthBundle
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /secure_area/connect
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix:   /secure_area/connect
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix:   /secure_area/connect
+
+hwi_facebook_login:
+    path: /secure_area/login/check-facebook
+
+hwi_github_login:
+    path: /secure_area/login/check-github
+
+# FOSUserBundle
+fos_user:
+    prefix:   /secure_area/
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

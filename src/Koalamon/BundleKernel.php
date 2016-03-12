@@ -13,6 +13,14 @@ class BundleKernel
     public static function registerBundles($environment)
     {
         $bundles = [
+
+            // 3rd party
+            new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new \FOS\UserBundle\FOSUserBundle(),
+            new \FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new \HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+
+            // koalamon
             new Bundle\CoreBundle\KoalamonCoreBundle(),
 
             new Bundle\IncidentDashboardBundle\KoalamonIncidentDashboardBundle(),
@@ -34,8 +42,7 @@ class BundleKernel
             new NotificationBundle\KoalamonNotificationBundle(),
 
             new MenuBundle\KoalamonMenuBundle(),
-
-            new \Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new UserBundle\KoalamonUserBundle()
         ];
 
         return $bundles;
