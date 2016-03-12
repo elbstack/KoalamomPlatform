@@ -13,7 +13,7 @@
             <div id="btn-admin">
                 {% if app.user.hasUserRole(project, constant('Koalamon\\Bundle\\IncidentDashboardBundle\\Entity\\UserRole::ROLE_ADMIN')) %}
                     <a href="{{ path("koalamon_default_project_admin", {"project": project.identifier} ) }}">
-                        <img src="/images/admin.png" width="15" style="margin-right: 5px"/> Administration
+                        <img src="{{ asset('bundles/koalamondefault/images/admin.png') }}" width="15" style="margin-right: 5px"/> Administration
                     </a>
                 {% endif %}
             </div>
