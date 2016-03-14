@@ -19,3 +19,18 @@
     font-size: 9px;
     margin-top: 3px;
 }
+
+#header-bar {
+    height: 50px;
+    padding-top: 25px;
+    border-bottom: 1px solid #ccc;
+    color: #000;
+    padding-left: 300px;
+    width: calc(100% - 340px);
+    padding-right: 40px;
+    font-weight: 200;
+}
+
+#header-bar #user-menu {
+    float: right;
+}

@@ -42,10 +42,10 @@
     <div class="option" style="float: right; text-align: right; width: 60px">
         {% if not app.user is null and app.user.hasUserRole(project, constant('Koalamon\\Bundle\\IncidentDashboardBundle\\Entity\\UserRole::ROLE_COLLABORATOR')) %}
             {% if event.status == "failure" and not event.eventIdentifier.knownIssue %}
-                <a class="confirm" href="{{ path("koalamon_default_event_knownissue_mark", { "eventIdentifier": event.eventIdentifier.id }) }}">
+                <a class="confirm" data-message="Are you sure you want to mark this incident as known issue?"href="{{ path("koalamon_default_event_knownissue_mark", { "eventIdentifier": event.eventIdentifier.id }) }}">
                     <img src="{{ asset('bundles/koalamondefault/images/check.jpg') }}" width="15" style="float: left"/>
                 </a>
-                <a href="{{ path("bauer_incident_dashboard_core_close", { "project": project.identifier, "event": event.id }) }}">
+                <a  class="confirm" data-message="Are you sure you want to close this incident?" href="{{ path("bauer_incident_dashboard_core_close", { "project": project.identifier, "event": event.id }) }}">
                     <img src="{{ asset('bundles/koalamondefault/images/close.jpg') }}" width="15" style="float: left"/>
                 </a>
             {% endif %}
