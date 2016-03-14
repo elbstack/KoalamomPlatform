@@ -8,7 +8,7 @@
             <div class="box-element-content">
                 <form method="post" action="{{ path('koalamon_default_project_admin_store', {'project': project.identifier }) }}" class="confirm" data-message="Are you sure you want to store the project options?">
                     <input name="options[isPublic]" type="checkbox" {% if project.public %}checked=checked{% endif %} id="options_isPublic">
-                    <span><strong>Public Project</strong> - Check this option if you want to grand read access to public.</span>
+                    <span><strong>Public Project</strong> - Check this option if you want to grant read access to public.</span>
                     <br><br>
                     <input type="submit" value="Store Options">
                 </form>

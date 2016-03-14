@@ -19,6 +19,7 @@
         <input type="checkbox" checked value="openIncidents" onclick="setFilter(this.value)">Open Incidents
         <input type="checkbox" checked value="knownIssues" onclick="setFilter(this.value)">Known Issues
         <input type="checkbox" value="successfulChecks" onclick="setFilter(this.value)">Successful Checks
+        <input type="checkbox" value="ignoredIssues" onclick="setFilter(this.value)">Ignored Issues
     </div>
 
     <div id="openIncidentsList">
@@ -28,7 +29,7 @@
             {% set incidentFound = false %}
             {% for eventIdentifier in eventIndentifiers %}
                 {% if eventIdentifier.lastEvent.status == "failure" %}
-                    {% if not eventIdentifier.knownIssue %}
+                    {% if not eventIdentifier.knownIssue and not eventIdentifier.ignoredIssue %}
                         {% set incidentFound = true %}
                         {% include "@KoalamonIncidentDashboard/Default/partials/row.html.twig" with {"event": eventIdentifier.lastEvent } %}
                     {% endif %}
@@ -65,6 +66,24 @@
             {% for eventIdentifier in eventIndentifiers %}
                 {% if eventIdentifier.lastEvent.status == "success" %}
                     {% if not eventIdentifier.lastEvent.unique %}
+                        {% set incidentFound = true %}
+                        {% include "@KoalamonIncidentDashboard/Default/partials/row.html.twig" with {"event": eventIdentifier.lastEvent } %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if not incidentFound %}
+                <div>No incidents found.</div>
+            {% endif %}
+        </div>
+    </div>
+    <div id="ignoredIssuesList" style="display: none">
+        <h3>Ignored Issues</h3>
+
+        <div class="box-element incidentList" id="ignoredIssues">
+            {% set incidentFound = false %}
+            {% for eventIdentifier in eventIndentifiers %}
+                {% if eventIdentifier.lastEvent.status == "failure" %}
+                    {% if eventIdentifier.ignoredIssue %}
                         {% set incidentFound = true %}
                         {% include "@KoalamonIncidentDashboard/Default/partials/row.html.twig" with {"event": eventIdentifier.lastEvent } %}
                     {% endif %}

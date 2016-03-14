@@ -34,7 +34,6 @@ menu:
         routeParameters:
           project: @route
 
-
   koalamon_project_admin:
 
     project_main:
@@ -50,6 +49,7 @@ menu:
         route: koalamon_default_user_admin
         routeParameters:
           project: @route
+
     systems_main:
       label: Systems
       options:

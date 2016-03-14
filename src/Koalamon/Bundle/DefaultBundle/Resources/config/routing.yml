@@ -6,6 +6,14 @@ koalamon_default_event_knownissue_unmark:
     path:     /p/knownissue/unmark/{eventIdentifier}/
     defaults: { _controller: KoalamonDefaultBundle:Event:unMarkAsKnownIssue }
 
+koalamon_default_event_ignoredissue_mark:
+    path:     /p/ignoredissue/mark/{eventIdentifier}/
+    defaults: { _controller: KoalamonDefaultBundle:Event:markAsIgnoredIssue }
+
+koalamon_default_event_ignoredissue_unmark:
+    path:     /p/ignoredissue/unmark/{eventIdentifier}/
+    defaults: { _controller: KoalamonDefaultBundle:Event:unMarkAsIgnoredIssue }
+
 koalamon_default_imprint:
     path:     /we/imprint.html
     defaults: { _controller: KoalamonDefaultBundle:Default:imprint }
