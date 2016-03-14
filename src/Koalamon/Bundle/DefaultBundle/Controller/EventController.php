@@ -16,6 +16,7 @@ class EventController extends ProjectAwareController
         $this->assertUserRights(UserRole::ROLE_COLLABORATOR);
 
         $eventIdentifier->setKnownIssue(true);
+        $eventIdentifier->setIgnoredIssue(false);
 
         $project = $eventIdentifier->getProject();
         $project->decOpenIncidentCount();
@@ -34,6 +35,41 @@ class EventController extends ProjectAwareController
         $this->assertUserRights(UserRole::ROLE_COLLABORATOR);
 
         $eventIdentifier->setKnownIssue(false);
+        $project = $eventIdentifier->getProject();
+        $project->incOpenIncidentCount();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($eventIdentifier);
+        $em->persist($project);
+        $em->flush();
+
+        return $this->redirectToRoute("bauer_incident_dashboard_core_homepage", array('project' => $project->getIdentifier()));
+    }
+
+    public function markAsIgnoredIssueAction(EventIdentifier $eventIdentifier)
+    {
+        $this->setProject($eventIdentifier->getProject());
+        $this->assertUserRights(UserRole::ROLE_COLLABORATOR);
+
+        $eventIdentifier->setIgnoredIssue(true);
+        $eventIdentifier->setKnownIssue(false);
+        $project = $eventIdentifier->getProject();
+        $project->decOpenIncidentCount();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($eventIdentifier);
+        $em->persist($project);
+        $em->flush();
+
+        return $this->redirectToRoute("bauer_incident_dashboard_core_homepage", array('project' => $project->getIdentifier()));
+    }
+
+    public function unMarkAsIgnoredIssueAction(EventIdentifier $eventIdentifier)
+    {
+        $this->setProject($eventIdentifier->getProject());
+        $this->assertUserRights(UserRole::ROLE_COLLABORATOR);
+
+        $eventIdentifier->setIgnoredIssue(false);
         $project = $eventIdentifier->getProject();
         $project->incOpenIncidentCount();
 

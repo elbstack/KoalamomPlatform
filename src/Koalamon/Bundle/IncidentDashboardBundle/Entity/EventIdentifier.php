@@ -37,6 +37,13 @@ class EventIdentifier
     private $knownIssue = false;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $ignoredIssue = false;
+
+    /**
      * @var integer
      *
      * @ORM\Column(type="integer")
@@ -294,6 +301,22 @@ class EventIdentifier
     public function setCurrentState($currentState)
     {
         $this->currentState = $currentState;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIgnoredIssue()
+    {
+        return $this->ignoredIssue;
+    }
+
+    /**
+     * @param boolean $ignoredIssue
+     */
+    public function setIgnoredIssue($ignoredIssue)
+    {
+        $this->ignoredIssue = $ignoredIssue;
     }
 
     /**

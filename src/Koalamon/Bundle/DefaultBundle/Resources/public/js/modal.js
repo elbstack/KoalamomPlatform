@@ -3,7 +3,7 @@ function ModalHandler() {
 
 ModalHandler.prototype.showConfirmDialog = function (message, callback) {
     $('#confirm').modal({
-        position: ["20%",],
+        position: ["20%"],
         overlayId: 'confirm-overlay',
         containerId: 'confirm-container',
         onShow: function (dialog) {
@@ -22,35 +22,34 @@ ModalHandler.prototype.showConfirmDialog = function (message, callback) {
             });
         }
     });
-}
+};
 
 ModalHandler.prototype.initConfirm = function (selector) {
 
-    elements = $(selector);
+    var elements = $(selector);
 
-    var thisClass = this;
+    var self = this;
+    var messageQuestion = "Are you sure?";
 
     elements.each(function () {
 
             var element = this;
-
+            var message = messageQuestion;
             if ($(this).attr('data-message') != undefined) {
-                var message = $(this).attr('data-message');
-            } else {
-                var message = "Are you sure?";
+                message = $(this).attr('data-message');
             }
 
-            if ($(element).prop('nodeName') == 'FORM') {
+            if ($(element).prop('nodeName').toUpperCase() == 'FORM') {
                 $(element).submit(function () {
-                    thisClass.showConfirmDialog(message, function () {
+                    self.showConfirmDialog(message, function () {
                         element.submit();
                     });
                     return false;
                 });
-            } else if ($(this).prop('nodeName') == 'A') {
+            } else if ($(this).prop('nodeName').toUpperCase() == 'A') {
                 $(element).click(function () {
-                    href = $(element).attr('href');
-                    thisClass.showConfirmDialog(message, function () {
+                    var href = $(element).attr('href');
+                    self.showConfirmDialog(message, function () {
                         location.href = href;
                     });
                     return false;
@@ -64,16 +63,17 @@ ModalHandler.prototype.initConfirm = function (selector) {
     $(".confirm-dialog-span").on('click', function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        span = this;
+        var span = this;
 
-        if ($(this.parentNode).attr('data-message') != undefined) {
-            var message = $(this.parentNode).attr('data-message');
-        } else {
-            var message = "Are you sure?";
+        var message = messageQuestion;
+        if ($(span.parentNode).attr('data-message') != undefined) {
+            message = $(span.parentNode).attr('data-message');
         }
-        thisClass.showConfirmDialog(message, function () {
+
+        self.showConfirmDialog(message, function () {
+            // shouldn't it be childNode?
             $(span.parentNode).click();
         });
         return false;
     });
-}
+};
