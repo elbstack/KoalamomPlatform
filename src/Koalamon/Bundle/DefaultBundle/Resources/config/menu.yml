@@ -3,65 +3,86 @@ menu:
   koalamon_project_main:
 
     status:
-      name: Status
-      route: bauer_incident_dashboard_core_homepage
-      projectAware: true
-      attributes:
-        class: status_count_label
+      label: Status
+      options:
+        route: bauer_incident_dashboard_core_homepage
+        routeParameters:
+          project: @route
+
+        attributes:
+          class: status_count_label
 
     twentyfour:
-      name: History
-      route: bauer_incident_dashboard_core_past
-      routeParameters:
-        intervalInHours: 24
-      projectAware: true
+      label: History
+      options:
+        route: bauer_incident_dashboard_core_past
+        routeParameters:
+           intervalInHours: 24
+           project: @route
 
     systems:
-      name: Systems
-      route: bauer_incident_dashboard_core_systems
-      projectAware: true
+      label: Systems
+      options:
+        route: bauer_incident_dashboard_core_systems
+        routeParameters:
+          project: @route
 
     tools:
-      name: Tools
-      route: bauer_incident_dashboard_core_tools
-      projectAware: true
+      label: Tools
+      options:
+        route: bauer_incident_dashboard_core_tools
+        routeParameters:
+          project: @route
 
 
   koalamon_project_admin:
 
     project_main:
-      name: Project
-      route: koalamon_default_project_admin
-      projectAware: true
+      label: Project
+      options:
+        route: koalamon_default_project_admin
+        routeParameters:
+          project: @route
 
     collaborators_main:
-      name: Collaborators
-      route: koalamon_default_user_admin
-      projectAware: true
-
+      label: Collaborators
+      options:
+        route: koalamon_default_user_admin
+        routeParameters:
+          project: @route
     systems_main:
-      name: Systems
-      route: koalamon_default_system_admin
-      projectAware: true
+      label: Systems
+      options:
+        route: koalamon_default_system_admin
+        routeParameters:
+          project: @route
 
     systems_sub_default:
       parent: systems_main
-      name: Default
-      route: koalamon_default_system_admin
-      projectAware: true
+      label: Default
+      options:
+        route: koalamon_default_system_admin
+        routeParameters:
+          project: @route
 
     tools_main:
-      name: Tools
-      route: koalamon_default_tool_admin
-      projectAware: true
+      label: Tools
+      options:
+        route: koalamon_default_tool_admin
+        routeParameters:
+          project: @route
 
     tools_sub_default:
       parent: tools_main
-      name: Tools
-      route: koalamon_default_tool_admin
-      projectAware: true
+      label: Tools
+      options:
+        route: koalamon_default_tool_admin
+        routeParameters:
+         project: @route
 
     translation_main:
-      name: Translations
-      route: koalamon_default_admin_translation_home
-      projectAware: true
+      label: Translations
+      options:
+        route: koalamon_default_admin_translation_home
+        routeParameters:
+          project: @route

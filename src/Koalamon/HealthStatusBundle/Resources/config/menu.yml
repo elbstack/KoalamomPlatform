@@ -4,6 +4,8 @@ menu:
 
     systems_sub_health_status:
       parent: systems_main
-      name: Health Status
-      route: koalamon_health_status_homepage
-      projectAware: true
+      label: Health Status
+      options:
+        route: koalamon_health_status_homepage
+        routeParameters:
+          project: @route

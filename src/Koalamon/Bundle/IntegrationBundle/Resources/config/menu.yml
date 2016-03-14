@@ -3,6 +3,8 @@ menu:
   koalamon_project_admin:
 
     integration_main:
-      name: Integrations
-      route: koalamon_integration_home
-      projectAware: true
+      label: Integrations
+      options:
+        route: koalamon_integration_home
+        routeParameters:
+          project: @route

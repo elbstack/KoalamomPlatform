@@ -4,6 +4,8 @@ menu:
 
     tools_sub_heart_default:
       parent: tools_main
-      name: Heart Beat
-      route: koalamon_heartbeat_homepage
-      projectAware: true
+      label: Heart Beat
+      options:
+        route: koalamon_heartbeat_homepage
+        routeParameters:
+          project: @route

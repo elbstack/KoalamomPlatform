@@ -3,6 +3,8 @@ menu:
   koalamon_project_admin:
 
     gecko_main:
-      name: Geckoboard Export
-      route: koalamon_gecko_board_home
-      projectAware: true
+      label: Geckoboard Export
+      options:
+        route: koalamon_gecko_board_home
+        routeParameters:
+          project: @route

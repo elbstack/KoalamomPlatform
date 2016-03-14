@@ -9,13 +9,14 @@ use Symfony\Component\DependencyInjection\Exception\InactiveScopeException;
 
 class MenuContainer
 {
+    const USE_ROUTE_PARAMETER = '@route';
+
+    /*
+     * @var FactoryInterface
+     */
     private $factory;
-
-    private $currentProject = null;
-
-    private $menues = [];
-
     private $request;
+    private $menues = [];
 
     /**
      * @param FactoryInterface $factory
@@ -31,32 +32,24 @@ class MenuContainer
         }
     }
 
-    private function getCurrentProject()
+    private function processRouteParameters(array $elementOptions)
     {
-        if (!$this->currentProject) {
-            $routeParams = $this->request->attributes->get('_route_params');
-            if ($routeParams && array_key_exists('project', $routeParams)) {
-                $this->currentProject = $routeParams['project'];
+        if (array_key_exists('routeParameters', $elementOptions)) {
+            foreach ($elementOptions['routeParameters'] as $parameterKey => $parameterValue) {
+                if ($parameterValue == self::USE_ROUTE_PARAMETER) {
+                    $routeParams = $this->request->attributes->get('_route_params');
+                    if ($routeParams && array_key_exists($parameterKey, $routeParams)) {
+                        $elementOptions['routeParameters'][$parameterKey] = $routeParams[$parameterKey];
+                    }
+                }
             }
         }
-        return $this->currentProject;
+        return $elementOptions;
     }
 
-    public function addItem($menuName, $elementIdentifier, $elementName, array $elementOptions = array(), array $attributes = array(), $projectAware = true, $parentIdentifier = null)
+    public function addItem($menuName, $elementIdentifier, $elementName, array $elementOptions, $parentIdentifier = null)
     {
-        if ($projectAware
-            && ((!array_key_exists('routeParameters', $elementOptions))
-                || (!array_key_exists('project', $elementOptions['routeParameters'])))
-        ) {
-
-            $currentProject = $this->getCurrentProject();
-
-            if ($currentProject == "") {
-                return;
-            }
-
-            $elementOptions['routeParameters']['project'] = $currentProject;
-        }
+        $elementOptions = $this->processRouteParameters($elementOptions);
 
         if (array_key_exists($menuName, $this->menues)) {
             $menu = $this->menues[$menuName];
@@ -67,16 +60,15 @@ class MenuContainer
         $elementOptions['label'] = $elementName;
 
         if ($parentIdentifier) {
-            $this->menues[$menuName][$parentIdentifier]->addChild($elementIdentifier, $elementOptions)->setAttributes($attributes);
+            $this->menues[$menuName][$parentIdentifier]->addChild($elementIdentifier, $elementOptions);
         } else {
-            $menu->addChild($elementIdentifier, $elementOptions)->setAttributes($attributes);
+            $menu->addChild($elementIdentifier, $elementOptions);
             $this->menues[$menuName] = $menu;
         }
-
     }
 
     /**
-     * @param $menuName
+     * @param string $menuName
      * @return ItemInterface
      */
     public function getMenu($menuName)
