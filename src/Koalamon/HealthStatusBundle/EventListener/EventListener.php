@@ -29,25 +29,6 @@ class EventListener
         $this->container = $container;
     }
 
-    private function getIdentifier(Event $event, System $system)
-    {
-        $identifierString = 'system_health_status_' . $system->getIdentifier();
-
-        $identifier = $this->doctrineManager->getRepository('KoalamonIncidentDashboardBundle:EventIdentifier')
-            ->findOneBy(array('project' => $event->getEventIdentifier()->getProject(), 'identifier' => $identifierString));
-
-        if (is_null($identifier)) {
-            $identifier = new EventIdentifier();
-            $identifier->setProject($event->getEventIdentifier()->getProject());
-            $identifier->setIdentifier($identifierString);
-
-            $this->doctrineManager->persist($identifier);
-            $this->doctrineManager->flush();
-        }
-
-        return $identifier;
-    }
-
     public function onEventCreate(NewEventEvent $event)
     {
         $currentEvent = $event->getEvent();
@@ -70,7 +51,6 @@ class EventListener
 
         $status = Event::STATUS_SUCCESS;
         $message = '';
-
 
         if ($system->getThreshold() == 0 || $currentEvent->getStatus() == Event::STATUS_SUCCESS) {
             $healthStatus = max(0, $system->getHealthStatus() - $tool->getScore());
@@ -96,6 +76,6 @@ class EventListener
         $rawEvent->setMessage($message);
         $rawEvent->setIdentifier(self::TOOL_IDENTIFIER . '_' . $system->getIdentifier());
 
-        ProjectHelper::addRawEvent($this->router, $this->doctrineManager, $rawEvent, $currentEvent->getEventIdentifier()->getProject(), $this->dispatcher);
+        $this->container->get('koalamon.project.helper')->addRawEvent($rawEvent, $currentEvent->getEventIdentifier()->getProject());
     }
 }

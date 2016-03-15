@@ -1,0 +1,5 @@
+services:
+
+    koalamon.project.helper:
+        class: Koalamon\Bundle\IncidentDashboardBundle\Util\ProjectHelper
+        arguments: ['@service_container']

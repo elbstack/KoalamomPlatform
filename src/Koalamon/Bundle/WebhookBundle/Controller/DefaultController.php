@@ -58,9 +58,7 @@ class DefaultController extends Controller
             return $this->getJsonRespone(self::STATUS_SKIPPED);
         }
 
-        $em = $this->getDoctrine()->getManager();
-
-        ProjectHelper::addRawEvent($this->get("Router"), $em, $rawEvent, $project, $this->get('event_dispatcher'));
+        $this->get('koalamon.project.helper')->addRawEvent($rawEvent, $project);
 
         return $this->getJsonRespone(self::STATUS_SUCCESS);
     }

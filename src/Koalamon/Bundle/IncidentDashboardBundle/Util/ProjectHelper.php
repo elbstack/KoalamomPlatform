@@ -9,74 +9,70 @@ use Koalamon\Bundle\IncidentDashboardBundle\Entity\RawEvent;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\System;
 use Koalamon\Bundle\IncidentDashboardBundle\Entity\Tool;
 use Koalamon\Bundle\IncidentDashboardBundle\EventListener\NewEventEvent;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-/**
- * Class ProjectHelper
- *
- * @todo should be handled via dependency injection
- *
- * @package Koalamon\Bundle\IncidentDashboardBundle\Util
- */
 class ProjectHelper
 {
-    static public function addRawEvent(Router $router, EntityManager $doctrineManager, RawEvent $rawEvent, Project $project, EventDispatcherInterface $eventDispatcher)
+    private $entityManager;
+    private $eventDispatcher;
+
+    public function __construct(Container $container)
     {
-        $event = new Event();
+        $this->entityManager = $container->get('doctrine')->getEntityManager();
+        $this->eventDispatcher = $container->get('event_dispatcher');
+    }
 
-        $event->setStatus($rawEvent->getStatus());
-        $event->setMessage($rawEvent->getMessage());
-        $event->setSystem($rawEvent->getSystem());
-        $event->setType($rawEvent->getType());
-        $event->setUnique($rawEvent->isUnique());
-        $event->setUrl($rawEvent->getUrl());
-        $event->setValue($rawEvent->getValue());
+    public function addRawEvent(RawEvent $rawEvent, Project $project)
+    {
+        $event = Event::createFromRawEvent($rawEvent);
 
-        $identifier = $doctrineManager->getRepository('KoalamonIncidentDashboardBundle:EventIdentifier')
+        $identifier = $this->entityManager
+            ->getRepository('KoalamonIncidentDashboardBundle:EventIdentifier')
             ->findOneBy(array('project' => $project, 'identifier' => $rawEvent->getIdentifier()));
 
         if (is_null($identifier)) {
             $identifier = new EventIdentifier();
             $identifier->setProject($project);
             $identifier->setIdentifier($rawEvent->getIdentifier());
-            $doctrineManager->persist($identifier);
-            $doctrineManager->flush();
+            $this->entityManager->persist($identifier);
+            $this->entityManager->flush();
         }
 
         $event->setEventIdentifier($identifier);
 
-        $event = self::translate($event, $doctrineManager);
+        $event = $this->translate($event);
 
-        $system = $doctrineManager->getRepository('KoalamonIncidentDashboardBundle:System')->findOneBy(['project' => $project, 'identifier' => $event->getSystem()]);
+        $system = $this->entityManager
+            ->getRepository('KoalamonIncidentDashboardBundle:System')
+            ->findOneBy(['project' => $project, 'identifier' => $event->getSystem()]);
 
-        if(is_null($system)) {
+        if (is_null($system)) {
             $system = new System();
             $system->setIdentifier($rawEvent->getSystem());
             $system->setName($rawEvent->getSystem());
             $system->setProject($project);
 
-            $doctrineManager->persist($system);
-            $doctrineManager->flush();
+            $this->entityManager->persist($system);
+            $this->entityManager->flush();
         }
 
         $identifier->setSystem($system);
 
-        self::addEvent($router, $doctrineManager, $event, $eventDispatcher);
+        $this->addEvent($event);
     }
 
-    static public function addEvent(Router $router, EntityManager $doctrineManager, Event $event, EventDispatcherInterface $eventDispatcher)
+    public function addEvent(Event $event)
     {
-        self::handleTool($event, $doctrineManager);
+        $this->handleTool($event);
 
         $project = $event->getEventIdentifier()->getProject();
 
-        $lastEvent = $doctrineManager
+        $lastEvent = $this->entityManager
             ->getRepository('KoalamonIncidentDashboardBundle:Event')
             ->findOneBy(array("eventIdentifier" => $event->getEventIdentifier()), array("created" => "DESC"));
-        /** @var Event $lastEvent */
-
+       
         // is status change?
         if (is_null($lastEvent) || $lastEvent->getStatus() != $event->getStatus()) {
             $event->setIsStatusChange(true);
@@ -113,20 +109,20 @@ class ProjectHelper
             $event->getEventIdentifier()->incFailedEventCount();
         }
 
-        self::storeData($doctrineManager, $event, $project);
+        $this->storeData($event, $project);
 
         $dispatcherEvent = new NewEventEvent($event);
         if ($lastEvent) {
             $dispatcherEvent->setLastEvent($lastEvent);
         }
-        $eventDispatcher->dispatch('koalamon.event.create', $dispatcherEvent);
+        $this->eventDispatcher->dispatch('koalamon.event.create', $dispatcherEvent);
     }
 
-    static private function handleTool(Event &$event, EntityManager $doctrineManager)
+    private function handleTool(Event &$event)
     {
         $toolName = $event->getType();
 
-        $tool = $doctrineManager->getRepository('KoalamonIncidentDashboardBundle:Tool')
+        $tool = $this->entityManager->getRepository('KoalamonIncidentDashboardBundle:Tool')
             ->findOneBy(array('project' => $event->getEventIdentifier()->getProject(), 'identifier' => $toolName));
 
         if (is_null($tool)) {
@@ -135,26 +131,26 @@ class ProjectHelper
             $tool->setIdentifier($toolName);
             $tool->setActive(false);
 
-            $doctrineManager->persist($tool);
-            $doctrineManager->flush();
+            $this->entityManager->persist($tool);
+            $this->entityManager->flush();
         }
 
         $event->getEventIdentifier()->setTool($tool);
     }
 
-    static private function storeData(EntityManager $doctrineManager, Event $event, Project $project)
+    private function storeData(Event $event, Project $project)
     {
-        $doctrineManager->persist($event);
-        $doctrineManager->persist($project);
-        $doctrineManager->flush();
+        $this->entityManager->persist($event);
+        $this->entityManager->persist($project);
+        $this->entityManager->flush();
 
-        $doctrineManager->persist($event->getEventIdentifier());
-        $doctrineManager->flush();
+        $this->entityManager->persist($event->getEventIdentifier());
+        $this->entityManager->flush();
     }
 
-    static private function translate(Event $event, EntityManager $doctrineManager)
+    private function translate(Event $event)
     {
-        $translations = $doctrineManager
+        $translations = $this->entityManager
             ->getRepository('KoalamonIncidentDashboardBundle:Translation')
             ->findBy(array('project' => $event->getEventIdentifier()->getProject()));
 

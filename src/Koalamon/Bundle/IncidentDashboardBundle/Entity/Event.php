@@ -319,5 +319,20 @@ class Event implements \JsonSerializable
     {
         $this->value = $value;
     }
+
+    public static function createFromRawEvent(RawEvent $rawEvent)
+    {
+        $event = new self;
+
+        $event->setStatus($rawEvent->getStatus());
+        $event->setMessage($rawEvent->getMessage());
+        $event->setSystem($rawEvent->getSystem());
+        $event->setType($rawEvent->getType());
+        $event->setUnique($rawEvent->isUnique());
+        $event->setUrl($rawEvent->getUrl());
+        $event->setValue($rawEvent->getValue());
+
+        return $event;
+    }
 }
 

@@ -87,8 +87,7 @@ class CheckToolIntervalCommand extends ContainerAwareCommand implements CheckToo
                     $newEvent->setMessage("");
                 }
 
-                $dispatcher = $this->getContainer()->get('event_dispatcher');
-                ProjectHelper::addEvent($this->getContainer()->get("Router"), $em, $newEvent, $dispatcher);
+                $this->getContainer()->get('koalamon.project.helper')->addEvent($newEvent);
             }
         }
     }
