@@ -15,7 +15,7 @@
 
 <div id="main">
 
-    {% if app.user is defined %}
+    {% if not app.user is null %}
         <div id="header-bar">
             <div id="user-menu">
                 {{ app.user.username }}
