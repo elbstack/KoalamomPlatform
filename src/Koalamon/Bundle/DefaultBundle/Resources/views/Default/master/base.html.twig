@@ -15,12 +15,14 @@
 
 <div id="main">
 
-    <div id="header-bar">
-        <div id="user-menu">
-            {{ app.user.username }}
-            <a class="button selected" href="{{ path("fos_user_security_logout") }}">Logout</a>
+    {% if app.user is defined %}
+        <div id="header-bar">
+            <div id="user-menu">
+                {{ app.user.username }}
+                <a class="button selected" href="{{ path("fos_user_security_logout") }}">Logout</a>
+            </div>
         </div>
-    </div>
+    {% endif %}
 
     {% include "@KoalamonIncidentDashboard/Default/partials/breadcrumb.html.twig" %}
 
