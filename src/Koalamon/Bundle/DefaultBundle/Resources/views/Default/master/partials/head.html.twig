@@ -58,7 +58,7 @@
 </script>
 
 <script>
-    {% if project is defined %}
+    {% if project is defined and not project is null %}
     var project_incident_count = {{ project.openIncidentCount }};
     {% else %}
     var project_incident_count = 0;
