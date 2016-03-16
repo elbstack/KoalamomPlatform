@@ -70,5 +70,5 @@ function setFilter(elementType) {
 }
 
 $(function () {
-    $(".status_count_label").append('<div class="status_count">' + project_incident_count + '</div>');
+    $(".status_count_label").append('<div class="label count-neutral">' + project_incident_count + '</div>');
 });

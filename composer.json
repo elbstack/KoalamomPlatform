@@ -9,7 +9,9 @@
     "knplabs/knp-menu-bundle": "^2.0",
     "hwi/oauth-bundle": "0.4.*@dev",
     "friendsofsymfony/user-bundle": "~2.0@dev",
-    "friendsofsymfony/jsrouting-bundle": "~1.5"
+    "friendsofsymfony/jsrouting-bundle": "~1.5",
+    "leafo/scssphp": "^0.6.3",
+    "patchwork/jsqueeze": "~1.0"
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*",
