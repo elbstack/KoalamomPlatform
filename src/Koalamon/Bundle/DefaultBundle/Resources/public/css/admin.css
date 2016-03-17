@@ -6,7 +6,14 @@
     list-style: none;
     padding: 0;
     padding-bottom: 20px;
+}
 
+#menu-project-admin .menu_level_1 li.current {
+    background-color: #7f8c8d;
+}
+
+#menu-project-admin .menu_level_1 li.current a {
+    color: white;
 }
 
 #menu-project-admin ul li {
@@ -18,16 +25,20 @@
     font-size: 12px;
 }
 
-#menu-project-admin .current a {
-    color: white;
-}
-
 #menu-project-admin .current {
     background-color: #3498db;
 }
 
+#menu-project-admin .current > a {
+    color: white;
+}
+
 #menu-project-admin .current_ancestor {
     background-color: #3498db;
+}
+
+#menu-project-admin .current_ancestor > a {
+    color: white;
 }
 
 #menu-project-admin .menu_level_1 ul li {
@@ -54,8 +65,4 @@
     display: block;
     position: absolute;
     margin-top: 15px;
-}
-
-#menu-project-admin .menu_level_1 li.current {
-    background-color: #7f8c8d;
 }
