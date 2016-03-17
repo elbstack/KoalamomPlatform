@@ -82,6 +82,10 @@ class ProjectHelper
                     $project->decOpenIncidentCount();
                 }
 
+                if ($event->getEventIdentifier()->isKnownIssue()) {
+                    $event->getEventIdentifier()->setKnownIssue(false);
+                }
+
                 if (is_null($event->getEventIdentifier()->getLastEvent())) {
                     $occurrenceLastEvent = $event->getCreated();
                 } else {
